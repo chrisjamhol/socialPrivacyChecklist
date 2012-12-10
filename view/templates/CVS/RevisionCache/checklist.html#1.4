@@ -1,0 +1,51 @@
+<div id="checklistOptions">
+    <div id="printChecklistButton" title="Checkliste drucken"><img id="printIcon" src="images/sprites/print.png" /></div>
+    <div id="mailChecklistButton" title="Checkliste per Mail senden"><img id="mailIcon" src="images/sprites/mail.png" /></div>
+    <div id="followButton" title="Checkliste folgen"><img id="followIcon" src="images/sprites/follow.png" /></div>
+</div>
+<div id="checklistContainer">
+   
+</div>
+<div id="screenshotZoom">
+    
+</div>
+
+<a id="screenshotSwap" href="" style="display: none;">
+    <img src="" title=""/>
+</a>
+
+<div id="printDialog">
+    
+</div>
+    
+<div id="mailDialog" title="Checkliste als Mail">
+    <form>
+        <label id="emailFirstLabel"><span class="mailDialogErrorIndicator">*</span>e-mailadresse</label><br />
+        <input  type="text" id="emailFirst" maxlength="80" size="30"><br /><br />
+        <label id="emailSecondLabel"><span class="mailDialogErrorIndicator">*</span>e-mailadresse bestätigen</label><br />
+        <input  type="text" id="emailSecond" maxlength="80" size="30"><br />                
+    </form>
+    <div id="mailDialogError"><p></p></div>
+    <button id="sendMailButton">Senden</button>
+    <button id="cancelSendMailButton">Abbrechen</button>
+</div>
+
+<div id="followDialog" title="Folgen">
+    <p>Du wilslt auf dem Laufenden gehalten werden?</p>
+    <form id="subscribe" action="https://login.mailingwork.de/optin/optin/execute" method="post">
+        <input type="hidden" name="account_id" value="2653" />
+        <input type="hidden" name="account_code" value="6cC0C" />
+        <input type="hidden" name="optinsetup_id" value="8" />
+        <input type="hidden" name="optinsetup_code" value="Cy4wD" />
+        <table>
+            <tr>
+            <td>E-Mail*</td>
+            <td>
+                <input id="optin_field_12" type="text" name="fields[12]" value="" />
+            </td>
+            </tr>
+        </table>
+        <input type="hidden" name="ic" id="ic" value=" " />
+        <input type="button" name="btn_submit" value="Anmelden" onClick="return checkOptinForm();" />
+    </form>
+</div>

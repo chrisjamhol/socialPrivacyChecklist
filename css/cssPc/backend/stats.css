@@ -1,0 +1,8 @@
+#col2{
+    text-align: center;
+    overflow-y: auto;
+}
+
+#col2 table{
+    margin: auto;
+}

@@ -1,0 +1,50 @@
+HashNav = function(){
+    this.currentPage = "";
+    /**
+     * pageload
+     */
+    this.go = function(){
+       this.currentPage = document.location.hash.replace("#","");
+       
+       if (typeof history.pushState !== "undefined") {           
+           if(this.currentPage != "" && this.currentPage != "typeSelection"){
+               var name = this.currentPage;
+               $.post("index.php",{"from": "front", "op": "getChecklistIdByName", "name": name},function(id){
+                   loadNewView("checklist.html","cssPc/checklist.css","ChecklistView.js",{"id": id, "name": name, "mode": "hashCall"});  //load checklistView
+               });               
+           }else if(this.currentPage == "typeSelection"){
+               loadNewView("start.html","cssPc/start.css","StartView.js");
+           }else{
+               var welcome = new WelcomeView();
+               welcome.init();
+           }                        
+        }else {
+           //old browser fallback....
+        }        
+    }
+    
+    this.setNavListener = function(){
+        $('.nav li').unbind('click').click(function(evt){
+            window.history.pushState({address : document.URL}, this.currentPage, document.URL);
+            evt.preventDefault(); 
+            console.log($(this));
+        });
+    }
+    
+   /* window.onpopstate = function(event){
+        var name = document.location.hash.replace("#","");
+        if(name == "typeSelection" && name != this.currentPage){
+           this.currentPage = name;
+           loadNewView("start.html","cssPc/start.css","StartView.js");
+        }else if(name != ""){
+             this.currentPage = name;
+             $.post("index.php",{"from": "front", "op": "getChecklistIdByName", "name": name},function(id){
+                loadNewView("checklist.html","cssPc/checklist.css","ChecklistView.js",{"id": id, "name": name, "mode": "hashCall"});  //load checklistView
+            });
+        }else{
+            this.currentPage = name;
+            var welcome = new WelcomeView();
+            welcome.init();
+        }       
+    }*/
+}

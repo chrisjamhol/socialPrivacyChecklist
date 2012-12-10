@@ -1,0 +1,85 @@
+var ChecklistView = function(){
+   
+    //load template
+    this.init = function(html,params){  
+        document.location.hash = params.name;
+        $.get("index.php",{"from": "front","op": "createChecklistView","id": params.id},function(checklist){   //get Checklist
+           if(params.mode == "hashCall"){
+                $('#mainContent').html("").load("view/templates/start.html",function(){
+                    $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'css/cssPc/start.css') );
+                    loadingContent(html,params,checklist);                  
+                    createTypeButton(params);
+                }); 
+            }else if(params.mode == "selection"){
+                loadingContent(html,params,checklist);
+            }                    
+       });
+       
+    }
+}
+
+function getView(){
+    return ChecklistView;
+}
+
+function loadingContent(html,params,checklist){
+    $('#typeSelection').remove();               
+    $('#welcomeText p').text(params.name);
+
+    $('#checklistDummy').load(html,function(){
+                //display Checklist
+            $('#checklistContainer').html(checklist);   
+
+                // Buttonevents
+            $('.checklistPoint .heading').click(function(){                 // hide/show text and screenshots if heading pressed
+                if($(this).next().css("display") == "none"){
+                    $(this).parent().height("307");
+                    $(this).next().show("fast");
+                }else{
+                    $(this).next().hide("fast",function(){                          
+                        $(this).parent().height("37");
+                    });
+                }
+            });
+
+            $('.checkButton').click(function(){                             //show checkicon if checkbutton pressed
+                $(this).parent().parent().siblings().find("img").show();
+                $(this).parent().parent().hide("fast",function(){
+                    $(this).parent().height("37");                            
+                });                
+            });
+    });
+}
+
+/**
+ * creates a button like the navButtons when page is called per hashCall
+ */
+function createTypeButton(params){        
+        window.setTimeout(function(){
+            var typeButtonHtml = '<li id="chosen" class="chosen" style="display: none;">';
+            typeButtonHtml += '<a href="#typeSelection"><span class="icon-home"></span>';
+            typeButtonHtml += '<span class="screen-reader-text">'+params.name+'</span></a></li>';
+            $('#chosenElementList').append(typeButtonHtml);
+               //top
+            var yTypeButton = ($('#header').height()/2)- parseInt($('#chosen a').css("margin"));
+                //left
+            var xTypeButton = (($('#chosen').width()/2)) *-1;
+
+           $('#chosen').css({
+                "position": "absolute",
+                "top": yTypeButton,
+                "left": xTypeButton,
+                "z-Index": "9999"
+            }).addClass('chosen');
+
+            $('#chosen a').css({
+                "box-shadow": "none",
+                "boder-color": "#a7a7a7"
+            });           
+            
+            $('#chosen, #welcomeText').css("transition", "none");
+            $('#chosen').css("display","block");
+            
+            $('#chosenElementList .chosen').css("background-image","url('images/background/pattern.png')");
+        },100);        
+}        

@@ -1,0 +1,68 @@
+/*---------------- article -------------------*/   
+ 
+#articleContainer{
+    display: box;
+    box-orient: vertical;
+    box-align: center; 
+    overflow-y: hidden;
+    overflow-x: hidden;
+    position: relative;
+    height: 100%;
+}
+    
+    #articleContainer hr{
+        margin-bottom: 25px;
+    }
+    
+    #articleCatDropdownContainer{
+        display: box;
+        box-orient: horizontal;
+        box-align: start;
+        height: 5%;  
+        padding-top: 5%;
+        border-bottom: 1px solid lightgray;
+    }
+    
+        #articleCatDropdown{
+            display: box;
+            box-orient: vertical;
+            box-pack: center;
+            margin-left: 8px;
+        }      
+               
+    #articles{       
+        display: box;
+        box-orient: vertical;
+        box-pack: center;
+        box-align: center;
+        width: 90%;
+        height: 95%;
+        overflow-y: auto;
+        overflow-x: hidden;       
+    }
+        
+    #col2 #addCatButton{
+       display: box;
+       font-size: 0.8em;
+       margin-top: 0px;
+    }
+    
+    #addArticleButton{
+        position: fixed;
+        font-size: 1.2em;
+    }
+    
+        
+    .articlePreview{
+        margin: 5px;
+        min-width: 50px;
+        width: 300px;
+        border: 1px solid gray;
+        text-align: center;
+    }
+   
+        .articlePreview h4{
+            margin: 0px;
+            padding-top: 10px;
+        }
+        

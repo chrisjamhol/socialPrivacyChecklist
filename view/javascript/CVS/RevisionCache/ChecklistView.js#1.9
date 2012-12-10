@@ -1,0 +1,339 @@
+var ChecklistView = function(){
+    this.id = null;
+    //load template
+    this.init = function(html,params){
+        this.id = params.id;    
+            //coming from hashNav
+        $.get("index.php",{"from": "front","op": "createChecklistView","id": params.id},function(checklist){   //get Checklist           
+            if($('#chosen').length == 0){       //user comes from direct url
+                $('#mainContent').html("").load("view/templates/start.html",function(){
+                    $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'css/cssPc/start.css') );
+                    createTypeButton(params,function(){
+                        //setting up progessBar
+                        $('#chosen').css("transition", "background-color ease-out .5s");
+                        $('#progressBar').width($('#header').width() - ($('#chosen').width() / 2) + 1);
+                        progressBar = new ProgressBar($('#progressBar'),$('.checklistPoint').length,0);
+                    });
+                    loadingContent(html,params,checklist,function(){
+                        //setting up lightbox and hovereffect for screenshots
+                        imageTasks();  
+                    });
+                });
+            }else{                      //user comes from selection  
+                loadingContent(html,params,checklist,function(){
+                    //setting up lightbox and hovereffect for screenshots
+                    imageTasks();
+                    //setting up progessBar
+                    $('#chosen').css("transition", "background-color ease-out .5s"); 
+                    $('#progressBar').width($('#header').width() - ($('#chosen').width() / 2) + 1);
+                    progressBar = new ProgressBar($('#progressBar'),$('.checklistPoint').length,2);                    
+                }); 
+            }                  
+       });
+
+       $.getScript("tools/mailingWork/mailingWork.js");
+       
+    }  
+    
+    this.imageTasks = function(){
+        $('head').append('<link rel="stylesheet" type="text/css" href="tools/lightbox/lightbox.css" media="screen" />');
+        //$.getScript("tools/lightbox/lightbox.js",function(){
+        $.getScript("tools/lightbox/lightbox.js",function(){
+            $.map($('.checklistPoint'),function(value,key){
+                var targetsSorted = [];
+                var targets = $(value).find('.screenshotsGeneral a');                           //find                
+                var targetsObj = {"0":targets[1],"1":targets[0],"2":targets[3],"3":targets[2]}; //get in right order                
+                $.map(targetsObj,function(value,key){
+                    (typeof(value) == "undefined") ? delete targetsObj[key] : targetsSorted.push(value);    //kill 
+                });
+                if(typeof(targetsSorted[0]) != "undefined"){
+                    $(targetsSorted).lightBox({
+                        overlayBgColor: '#F4F4F4',
+                        overlayOpacity: 0.6,
+                        imageLoading: 'tools/lightbox/images/lightbox-ico-loading.gif',
+                        imageBtnClose: 'tools/lightbox/images/lightbox-btn-close.gif',
+                        imageBtnPrev: 'tools/lightbox/images/lightbox-btn-prev.gif',
+                        imageBtnNext: 'tools/lightbox/images/lightbox-btn-next.gif',
+                        imageBlank: 'tools/lightbox/images/lightbox-blank.gif',
+                        txtImage: 'Schritt',
+                        txtOf: 'von',
+                        fixedNavigation:true
+                    });
+                    applyHoverZoom(targetsSorted);
+                }
+            });
+            
+            $.map($('.textContainer a'),function(value,key){
+                if($(value).attr("href").indexOf("image") > -1){        //found link to screenshot image
+                    $(value).unbind('click').click(function(event){
+                        event.preventDefault(); 
+                        var href = $(value).attr("href");
+                        var src = "images/screenshots/" + href.substring(href.indexOf("image/")+6);
+                        $('#screenshotSwap').attr("href",src);
+                        $('#screenshotSwap img').attr("src", src).attr("title","sdf");
+                        $('#screenshotSwap').lightBox({
+                            overlayBgColor: '#F4F4F4',
+                            overlayOpacity: 0.6,
+                            imageLoading: 'tools/lightbox/images/lightbox-ico-loading.gif',
+                            imageBtnClose: 'tools/lightbox/images/lightbox-btn-close.gif',
+                            imageBtnPrev: 'tools/lightbox/images/lightbox-btn-prev.gif',
+                            imageBtnNext: 'tools/lightbox/images/lightbox-btn-next.gif',
+                            imageBlank: 'tools/lightbox/images/lightbox-blank.gif',
+                            txtImage: 'Schritt',
+                            txtOf: 'von',
+                            fixedNavigation:true
+                        });
+                        $('#screenshotSwap').trigger("click");                        
+                    });
+                }
+            });
+        });
+    }
+    
+    this.applyHoverZoom = function(targets){
+        $.map(targets,function(value,key){
+            $(value).unbind("mouseenter").mouseenter(function(){var offsetImage = {"top": $(value).find("img").offset().top, "left": $(value).find("img").offset().left};
+                var imageSize = {"width": $(value).find("img").width(), "height": $(value).find("img").height()};
+                var that = $(value).find("img");    //that = small imageScreenshot
+                window.setTimeout(function(){
+                            //window.setTimeout(function(){         
+                            //    $(that).unbind("mousemove");
+                            //},300);       
+                     $(that).unbind("mousemove").mousemove(function(ev){
+                        if(ev.pageY > offsetImage.top && ev.pageY < (offsetImage.top+imageSize.height) && ev.pageX > offsetImage.left && ev.pageY < (offsetImage.left+imageSize.width)){
+                            $(that).unbind("mousemove");
+                            var src = $('#screenshotZoom').find("img").attr("src");
+                            if(src != $('#screenshotZoom').find("img").attr("src") || typeof(src) == "undefined"){
+                                
+                                $('#screenshotZoom').css({
+                                    "top": ev.pageY-50,
+                                    "left": ev.pageX-50,
+                                    "width": 45,
+                                    "height": 45
+                                }).show();
+                                var eventTmp = ev;
+                                var offset = {"top": 20, "left": 20};
+                                $.getJSON("index.php",{"from": "front", "op": "getScreenshotData", "source": $(that).attr("src")},function(imageData){
+                                    var eventSave = eventTmp;
+                                    var image = '<img src="'+$(that).attr("src")+'" class="hoverZoom" />';
+                                    $('#screenshotZoom').html(image);
+                                   
+                                   $('#screenshotZoom').css({
+                                        "width": $('.hoverZoom').width()+10,
+                                        "height": $('.hoverZoom').height()+10});
+                                     var sizeScreenshotZoom = {"height": $('#screenshotZoom').height(), "width": $('#screenshotZoom').width()}; 
+                                    $('#screenshotZoom').css({
+                                        "top": (eventSave.pageY - sizeScreenshotZoom.height - offset.top)+"px",
+                                        "left": (eventSave.pageX - sizeScreenshotZoom.width - offset.left)+"px"
+                                    }).show();      //hoverzoomed screenshot
+                                   $('body').unbind("mousemove").mousemove(function(event){
+                                        var top = sizeScreenshotZoom.height;
+                                        var left = sizeScreenshotZoom.width;                                        
+                                        $('#screenshotZoom').css({
+                                                        "top": (event.pageY - top - offset.top)+"px",  // - $('#screenshotZoom').find("img").height()),
+                                                        "left": (event.pageX - left - offset.left)+"px" // - $('#screenshotZoom').find("img").width())
+                                        });                                   
+                                    });                                  
+                                });
+                                
+                            }
+                        }
+                    });
+                    $(value).mouseout(function(){
+                        $('body').unbind("mousemove"); 
+                        $(that).unbind("mousemove");
+                        $('#screenshotZoom').html("").hide();                        
+                    });
+                },300);
+            });
+        });
+    }
+    
+    
+    
+    this.loadingContent = function(html,params,checklist,callback){
+        $('#typeSelection').remove();               
+        $('#welcomeText p').text(params.name);
+
+        $('#checklistDummy').load(html,function(){
+                    //display Checklist
+                $('#checklistContainer').html(checklist);
+                
+                $.getScript("tools/cubelook/cubelook.js",function(){
+                    var cubelook = new Cubelook();
+                });   
+                
+                $('.checkButton').click(function(){                             //show checkicon if checkbutton pressed
+                    if($(this).html() == "check"){
+                        $(this).parent().parent().siblings().find("img").show();                       
+                        $(this).html("uncheck");
+                        progressBar.increaseProgress(1);
+                    }else if($(this).html() == "uncheck"){
+                        $(this).parent().parent().siblings().find("img").hide();
+                        $(this).html("check");
+                        progressBar.decreaseProgress(1);
+                    }
+                                    
+                });  
+
+                $('#sendMailButton,#cancelSendMailButton').button();
+
+                $('#printChecklistButton').click(function(){
+                    var clone = $('#checklistContainer').clone();
+                    clone.find('.checkButton, .controls, .checkicon').remove();
+                    printContent(clone.html());
+                    return false;
+                });
+
+                $('#mailChecklistButton').click(function(){
+                    $('#mailDialog').dialog({close: function(){$('#mailDialog input').val("");}});
+                });
+
+                    $('#cancelSendMailButton').click(function(){
+                        $('#mailDialog').dialog("close");
+                        $('#mailDialog input').val("");                    
+                    });
+
+
+
+                    $('#sendMailButton').click(function(){
+                        $('#mailDialogError').html("");
+                        $('.mailDialogErrorIndicator').hide();
+                        $('#mailAgreements').css("color","black");
+                        var email = $('#emailFirst').val();
+                        if(email == $('#emailSecond').val()){
+                            var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                            if (filter.test(email)) {                                
+                                $.get("index.php",{"from":"front","op": "sendListAsMail","checklistId": params.id,"to": $('#emailFirst').val()},function(status){
+                                    if(status == "send"){
+                                        alert("Ihre Checklist wurde an Sie versand");
+                                        $('#mailDialog').dialog("close");
+                                        $('#mailDialogError').html("");
+                                        $('.mailDialogErrorIndicator').hide();
+                                        $('#mailAgreements').css("color","black");
+                                    }else{
+                                        alert("Leider ");
+                                        $('#mailDialog').dialog("close");
+                                        $('#mailDialogError').html("");
+                                        $('.mailDialogErrorIndicator').hide();
+                                        $('#mailAgreements').css("color","black");
+                                    }
+                                });                                
+                            }else{
+                                $('#emailFirstLabel .mailDialogErrorIndicator').show();
+                                $('#emailFirstLabel').css("color","red");
+                                $('#emailSecond').val("");
+                                $('#mailDialogError').html("Adresse ist keine gültige E-Mailadresse");
+                            }
+                        }else{
+                            $('#emailSecondLabel .mailDialogErrorIndicator').show();
+                            $('#emailSecondLabel').css("color","red");
+                            $('#mailDialogError').html("Adressen stimmen nicht überein");
+                        }                    
+                    });
+            
+            $("#followSubscribeButton").button();
+            
+            $('#followButton').unbind("click").click(function(){
+                $('#followDialog').dialog();
+            });
+            
+                $("#followSubscribeButton").unbind("click").click(function(){
+                    mailingWorkSubcribe();
+                });
+        });   
+        
+              
+        
+        if(typeof(callback) == "function"){
+            callback();
+        }
+    }
+    
+    /**
+    * creates a button like the navButtons when page is called per hashCall
+    */
+    this.createTypeButton = function(params,callback){
+        window.setTimeout(function(){
+            var typeButtonHtml = '<li id="chosen" class="chosen" style="display: none;">';
+            typeButtonHtml += '<a href="#typeSelection"><span><img class="typeIcon" src="images/typeIcons/'+params.iconPath+'" /></span>';
+            typeButtonHtml += '<span class="screen-reader-text">'+params.name+'</span></a></li>';
+            $('#chosenElementList').append(typeButtonHtml);
+               //top
+            var yTypeButton = parseInt($('#header').height()) + (parseInt($('#progressBar').height()/2)) - parseInt($('#chosen').height()/2);
+                //left
+            var xTypeButton =  parseInt($('#header').offset().left) + parseInt($('#header').width()) - parseInt($('#chosen').width() / 2);
+            $('#chosen').css({
+                "position": "absolute",
+                "top": yTypeButton,
+                "left": xTypeButton,
+                "z-Index": "999"
+            }).addClass('chosen');
+
+            $('#chosen a').css({
+                "box-shadow": "none",
+                "boder-color": "#a7a7a7"
+            });           
+            
+            $('#chosen, #welcomeText').css("transition", "none");
+            $('#chosen').css("display","block");
+            
+            $('#chosenElementList .chosen').css("background-image","url('images/background/pattern.png')");
+            
+            if(typeof(callback) == "function"){
+                callback();
+            }
+        },100);   
+    }
+    
+    this.printContent = function(content){
+        var popup = window.open('', 'printPopup', 'height=600, width=1000');
+        popup.document.write('<html><head><title>FacebookSecurity - Checklist '+document.location.hash.replace("#","")+'</title>');
+        popup.document.write('<link rel="stylesheet" type="text/css" href="css/cssPrint/printChecklist.css" />');
+        popup.document.write('</head><body><div id="checklistContainer">');
+        popup.document.write(content);
+        popup.document.write('</div></body></html>');
+        setTimeout(function(){
+            popup.print();
+            popup.close();
+        },500);        
+        return true;
+    }
+       
+    var applyHoverZoom = this.applyHoverZoom;
+    var imageTasks = this.imageTasks;
+    var createTypeButton = this.createTypeButton;
+    var loadingContent = this.loadingContent;
+    var printContent = this.printContent;
+}
+
+function getView(){
+    return ChecklistView;
+}
+
+/**
+ * ProgressBar object
+ * @param int total
+ * @param int start start ist the number of element to start with
+ */
+ProgressBar = function(ta,to,st){
+    //var progressBar = ta;
+    var progressSpan = $(ta).find('span');
+    var total = to;
+    var progress = st;
+    
+    this.increaseProgress = function(amount){progress = progress + amount;updateBar();}  
+    this.decreaseProgress = function(amount){progress = progress - amount;updateBar();}
+    
+    var updateBar = function(){
+        var newWidth = ( (progress/total)*100 );
+        $(progressSpan).css("width", newWidth+"%");
+        if(progress >= total){
+            $('#chosen').css("background-color", "rgba(0,128,0,.8)").css("background-image","none");
+        }else{
+            $('#chosen').css("background-color", "rgba(0,128,0,0)").css("background-image", "url('images/background/pattern.png')");
+        }
+    }
+    
+    updateBar();
+}

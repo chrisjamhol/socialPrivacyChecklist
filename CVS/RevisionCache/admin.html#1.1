@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="cache-control" content="no-cache" />
+        <link href='css/Aristo.css' rel='stylesheet' type='text/css'>
+        <link href='css/cssPc/backend/backend.css' rel='stylesheet' type='text/css'>
+        <script src="tools/prefixFree.js"></script>
+        <script src="tools/jQuery/jquery1.7.2.js"></script>
+        <script src="tools/jQuery/jqueryui1.8.21.js"></script> 
+        <script src="view/javascript/backend/BackendView.js"></script>
+        <script src="tools/uploader/client/fileuploader.js"></script>
+        <script>
+            $('document').ready(function(){                           
+                //tinymceLoad();
+                
+                var backend = new BackendView();
+                backend.init(); 
+                
+             
+             });
+             
+               // html5 DnD
+                function doDrop(event){
+                    console.log(event);
+                    var files = event.dataTransfer.files;
+                    console.log(files[0]);
+                    var img = document.createElement("img");
+                    console.log(img);
+                    img.src = files[0].getAsDataURL();
+                    document.body.appendChild(img);
+                    
+                }
+             // end html5 DnD
+             /**
+             * takes paths for: html,css,js,callback
+             * 
+             */
+             var loadNewView = function(html,css,js,params,callback){ 
+                //---------- css ---------------
+               $.get("css/"+css, function(cssData) {
+                    $("head").append("<style type='text/css'>"+cssData+"</style>");
+                             //----------- script --------------
+                        $.getScript("view/javascript/backend/"+js,function(){
+                                //----------- view -----------------
+                            var ViewName = getView();
+                            var view = new ViewName(); 
+                            view.init("view/templates/backend/"+html,params); 
+                            if(typeof(callback) == "function"){                                
+                                callback();
+                        }                                       
+                     });
+                });  
+            }
+        </script>
+    </head>
+    <body> 
+        <section id="col1" class="col">            
+                <button id="OpFbType"><span class="buttonText">Fb-Type</span></button>
+                <button id="OpChecklist"><span class="buttonText">Checklist</span></button>
+                <button id="OpArticle"><span class="buttonText">Artikel</span></button>
+        </section>
+        <section id="col2" class="col">
+           
+        </section>
+        <section id="col3" class="col">
+            
+        </section>
+                        
+         
+         <div id="newCatDialog" title="Neue Kategorie">
+             <input type="text" id="newCatInput"/><br /><button id="newCatSubmitButoon" class="blueButton">Erstellen</button>
+         </div>
+                    <div id="sortCatDialog" style="display: none;">
+                        <ul >
+                            <li >shdfhdf</li>
+                            <li >dfhgndfg</li>
+                            <li>sghf</li>
+                            <li >fhsfjgdfghfj</li>
+                        </ul>
+                         <ul >
+                            <li>sdfdf</li>
+                            <li>retret</li>
+                            <li>iopiop</li>
+                            <li>,.m-,</li>
+                        </ul>
+                       
+                    </div>
+    </body>
+</html>

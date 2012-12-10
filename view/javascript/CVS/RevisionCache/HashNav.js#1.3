@@ -1,0 +1,29 @@
+HashNav = function(){
+    this.currentPage = "";
+
+    this.on = function(){
+        window.onpopstate = function(event){       
+            var name = document.location.hash.replace("#","");
+            if(name == "typeSelection" && name != this.currentPage){
+            this.currentPage = name;
+            loadNewView("start.html","cssPc/start.css","StartView.js");
+            }else if(name != "" && name != this.currentPage){
+                this.currentPage = name;
+                $.post("index.php",{"from": "front", "op": "getChecklistIdByName", "name": name},function(id){
+                    loadNewView("checklist.html","cssPc/checklist.css","ChecklistView.js",{"id": id, "name": name, "mode": "hashCall"});  //load checklistView
+                });
+            }else{
+                this.currentPage = name;
+                var welcome = new WelcomeView();
+                welcome.init();
+            }       
+        }
+    }
+    
+    this.off = function(){
+        window.onpopstate = function(event){
+            event.preventDefault();
+        }
+    }
+    
+}

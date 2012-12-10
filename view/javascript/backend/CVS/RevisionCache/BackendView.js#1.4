@@ -1,0 +1,51 @@
+BackendView = function(){
+      
+    this.init = function(){
+        
+            //--------------- main control -------------
+        $('#OpFbType').click(function(){
+            loadNewView("fbTypeEdit.html","cssPc/backend/fbTypeEdit.css","FbTypeEditView.js",function(){
+                
+            });
+        });
+        
+        $('#OpChecklist').click(function(){
+             loadNewView("checklistEdit.html","cssPc/backend/checklistEdit.css","ChecklistEditView.js",function(){
+                
+            });
+        });
+        
+         $('#OpArticle').click(function(){
+            loadNewView("articleEdit.html","cssPc/backend/articleEdit.css","ArticleEditView.js",function(){
+                getCats();      //get categorys and fill in select tab #acticleCatDropdown
+               // showArticles();
+            });           
+        });
+        
+         $('#OpStats').click(function(){
+            loadNewView("stats.html","cssPc/backend/stats.css","StatsView.js");           
+        });
+                //-------------- articles -----------------
+                
+                
+        $('#addCatButton').unbind('click').click(function(){
+            $('#newCatDialog').dialog({height: 115});
+            $('#newCatSubmitButoon').unbind('click').click(function(){
+               if($('#newCatInput').val() != "" && $('#newCatInput').val() != " "){                  
+                 $.get("../index.php",{"from": "back","op": "newCat", "cat": $('#newCatInput').val()},function(){$('#newCatDialog').dialog('close');}); 
+               } 
+            });
+        });      
+    }
+
+    var getCats = function(){
+        $.get("../index.php",{"from": "back","op": "getCats"},function(cats){
+            $('#articleCatDropdown').html(cats); 
+            $('#articleCatDropdown').change(function(){
+                $.get("../index.php",{"from":"back","op":"getArticles","cat":$(this).val()},function(articles){
+                    $('#articles').html(articles);
+                }); 
+            });
+        });       
+     }
+}

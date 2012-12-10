@@ -1,0 +1,19 @@
+.top{transform: rotateX(-90deg) translateZ(148px) translateY(-160px);  opacity: 0; filter:alpha(opacity=0);}
+.front{transform: rotateX(0deg) translateZ(0px) translateY(0px);}
+.bottom{transform: rotateX(-90deg) translateZ(148px) translateY(160px); opacity: 0; filter:alpha(opacity=0);}
+
+#checklistContainer{
+    position: relative;
+    margin: 0 auto;    
+    perspective: 800;
+    perspective-origin: 50% 160px;
+    width: 800px;
+}
+
+.checklistPointPreview{
+    position: absolute;   
+    width: 100%;
+    margin: 0px;
+    transition: -webkit-transform .5s linear, height .5s linear;        
+    transform-style: preserve-3d;
+}

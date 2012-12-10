@@ -1,0 +1,31 @@
+<?php 
+include_once 'model/Includer.php';
+$includer = new Includer();
+$includer->includeShit();
+    $db = DbConnector::getInstance()->connect();
+    
+    function createChecklistView($db){
+        $id = $_GET['id'];
+        if($id != ""){
+            $checklist = new Checklist($id);
+            echo $checklist->returnAsHtml();
+        }else{
+            echo '<p>Leider keine Checkliste für diesen Typ gefunden</p>';
+        }        
+    }
+    
+    function getFbTypes($db){
+         $getFbTypesSql = "SELECT `fbtypeId` FROM `fbtype` ORDER BY `pos`";
+         $result = $db->query($getFbTypesSql);	   
+         $typesHtml = "";
+         while ($row = $result->fetch_object()){
+             $type = new FbType($row->fbtypeId);
+             $typesHtml .= $type->getTypesHtml("frontend");             
+         }
+         echo $typesHtml;       
+    }
+    
+    function getChecklistIdByName($db){
+        echo $db->query('SELECT `checklistId` FROM `fbtype` WHERE `name`="'.$_POST['name'].'"')->fetch_object()->checklistId;
+     }
+?>

@@ -1,0 +1,142 @@
+/* ------------------------- general ----------------------------*/
+
+html,body{
+	margin: 0 auto;
+	padding: 0;
+	/*height: 950px; */
+        width: 100%;
+        background-image: url(../../images/background/pattern.png); background-repeat:repeat;
+        font-family: Verdana, sans-serif;
+        font-size:12px;
+        overflow-y: auto;
+        overflow-x: hidden;
+}
+
+body{
+    overflow: hidden;
+}
+
+/* ie fixes */
+a img{
+    border: none;
+}
+/* ie fixes */
+
+#wrapper{
+    width: 960px;
+    max-width: 960px;
+    margin: 0 auto;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.requiredField{
+    display: none;
+    color: red;
+}
+
+@font-face {
+  font-family: 'Signika';
+  src: local('Signika'), url(Signika-Bold.ttf) format('truetype');
+}
+
+*::-webkit-scrollbar {
+    width: 12px;
+    border: 1px solid white;
+}
+
+*::-webkit-scrollbar-track {
+    background-color: #F9F9F9;
+    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, .5);
+}
+
+*::-webkit-scrollbar-thumb {   
+    background-color: #BCBCBC;
+}
+
+/* ------------------------- header ----------------------------*/
+
+#header{
+        text-align: center;
+	border: 1px solid lightgray;
+        border-bottom: none;
+        border-top: none;
+        height: 146px;
+        /*background: #F9F9F9;*/
+        background: white;
+        width: 960px;
+        max-width: 960px;
+        margin: 0 auto;
+        padding-top: 10px;
+}
+
+    #headerLogo{
+        float: left;
+        margin-left: 15px;
+    }
+
+    #header .heading{  
+        font-size: 100px;
+        margin: 0px;
+        padding: 0px;
+        font-family: 'Signika','Verdana','Myriad Pro', 'Myriad', helvetica, arial, sans-serif;		
+        font-weigth: bold;
+        text-shadow: 0 -1px 5px black, 0 1px 5px #EEE;
+        mask-image: gradient
+    }  
+
+    #header .heading a {  
+        text-decoration: none;
+        color: #3B5998;
+        text-stroke-width: 1px;
+        text-stroke-color: #172A33;        
+    }  
+
+    #header .heading a:hover {  
+
+    }  
+
+    #header .heading:after {  
+
+    } 
+    
+    /* ------------------------- mainContent ----------------------------*/
+    
+#mainContent{
+    height: 780px;  
+    overflow-y: hidden;
+    overflow-x: hidden;
+}    
+       
+ 
+/* ------------------------- Sidebar ----------------------------*/
+    
+#sidebar{
+    display: none;
+    float: left;
+    width: 25%;
+    height: 100%;
+    border-right: 1px solid lightgrey;
+    text-align: center;
+    font-size: 3em;
+}
+
+/* ------------------------- footer ----------------------------*/
+
+#footer{
+	clear: both;
+	border: 1px solid lightgray;
+        border-top: none;
+        height: 100px;
+        background: white;
+        width: 960px;
+        margin: 0 auto;
+        padding: 0;
+}
+
+    #footer p{
+        margin-top: 0;
+        padding-top: 5px;
+    }

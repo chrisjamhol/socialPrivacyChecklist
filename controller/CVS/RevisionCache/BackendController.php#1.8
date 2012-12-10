@@ -1,0 +1,253 @@
+<?php 
+include_once 'model/Includer.php';
+$includer = new Includer();
+$includer->includeShit();
+    $db = DbConnector::getInstance()->connect();
+
+
+//---------------------------- ARTICLES --------------------------------    
+function newCat($db){
+    $cat = $_GET['cat'];
+    echo $newCatSql = "INSERT INTO `categorys`(`name`,`position`) VALUES ('".$cat."',0)";
+    $db->query($newCatSql);
+    
+}
+
+function getCats($db){
+   $getCatsSql = "SELECT * FROM `categorys` Order By `position`";    
+    $result = $db->query($getCatsSql);	   
+    $n = 0;
+    $list = "<option></option>";
+    while ($row = $result->fetch_object()){
+        $list .= "<option id='cat".$n."'>".$row->name."</option>";
+        $n++;
+    }    
+    echo $list;
+}
+
+function getArticles($db){
+    include_once "model/Article.php";
+    $article = new Article();
+    echo $getArticlesSql = "SELECT * FROM article LEFT JOIN article_cat USING(articleId) LEFT JOIN categorys USING(categoryId) WHERE categorys.name = '".$_GET['cat']."'";
+    
+}
+
+//--------------------- FBTYPES -----------------------------------------
+function getFbTypes($db){
+    $fbtype = new FbType();
+    $getFbTypesSql = "SELECT `fbtypeId` FROM `fbtype` ORDER BY `pos`";
+    $result = $db->query($getFbTypesSql);
+    $typesHtml = "";
+    $controlsHtml = "";
+    while ($row = $result->fetch_object()){
+        $type = new FbType($row->fbtypeId);
+        $typesHtml .= $type->getTypesHtml("backend");
+        $controlsHtml .= $type->getControlsHtml();         
+    }
+    echo json_encode(array("typesHtml" => $typesHtml,"controls" => $controlsHtml));     
+}
+
+function addFbType($db){    
+    $newType = new FbType();
+    //set attributes        
+        $newType->setValue("name", htmlspecialchars($_GET['name']));
+        $newType->setValue("pos",$_GET['pos']);
+        $newType->setValue("description", str_replace("\r","<br />", str_replace("\n","<br />",$_GET['desc'])));
+        $newType->setValue("iconPath",$_GET['icon']);
+    $newType->save();
+}
+
+function getTypeInfo($db){
+    $pos = $_GET['pos'];
+    $options = "<option></option>";
+    $infos = array();
+    
+    $getTypeInfosSql = "SELECT * FROM `fbtype` WHERE `pos`=".$pos;
+    $resultInfos = $db->query($getTypeInfosSql);
+    $row = $resultInfos->fetch_object();
+        $infos['id'] = $row->fbtypeId;
+        $infos['name'] = $row->name;
+        $infos['description'] = $row->description;
+        $infos['pos'] = $row->pos;
+        $infos['icon'] = $row->iconPath;
+        $infos['checklistId'] = $row->checklistId;
+        
+    $getChecklistsSql = "SELECT * FROM `checklist` WHERE 1";
+    $resultChecklist = $db->query($getChecklistsSql);
+    while($row = $resultChecklist->fetch_object()){
+        if($row->checklistId != $infos['checklistId']){            
+            $options .= "<option value=".$row->checklistId.">".$row->name."</option>"; 
+        }else{            
+            $options .= "<option selected value=".$row->checklistId.">".$row->name."</option>"; 
+        }
+    }
+   
+    echo json_encode(array("infos"=>$infos,"checklists"=>array("options"=>$options)));
+}
+
+function changeFbTypePosition($db){
+        // set positions
+    $targetPos = $_GET['values']['currentPos'];    
+    switch($_GET['values']['operation']){
+        case 'lower':
+            $neighbourPos = $_GET['values']['currentPos']-1;           
+            $neighbourSql = "SELECT `fbtypeId` FROM `fbType` WHERE `pos` = ".$neighbourPos;
+            break;
+        case 'higher':
+            $neighbourPos = $_GET['values']['currentPos']+1;            
+            break;
+    }
+        //get Id from target and the neighbour element  
+    $targetSql = "SELECT `fbtypeId` FROM `fbtype` WHERE `pos` = ".$targetPos;
+    $neighbourSql = "SELECT `fbtypeId` FROM `fbtype` WHERE `pos` = ".$neighbourPos;
+    
+    $tagetId = $db->query($targetSql)->fetch_object()->fbtypeId;
+    $neighbourId = $db->query($neighbourSql)->fetch_object()->fbtypeId;
+   
+        //change Position
+    $target = new FbType($tagetId);    
+    $neighbour = new FbType($neighbourId);
+    
+    $target->setValue("pos", $neighbourPos);
+    $neighbour->setValue("pos", $targetPos);
+    
+    $target->save();
+    $neighbour->save(); 
+}
+
+function saveFbTypeChange(){
+    $changedType = new FbType($_GET['values']['fbTypeId']);
+        $changedType->setValue("name", $_GET['values']['name']);
+        $changedType->setValue("description", $_GET['values']['desc']);
+        $changedType->setValue("checklistId", $_GET['values']['checklist']);
+    $changedType->save();
+}
+
+function delFbType($db){
+    $pos = $_GET['pos']; 
+    $count = $db->query("SELECT count(fbtypeId) AS count FROM `fbtype` WHERE 1")->fetch_object()->count; 
+    $db->query("DELETE FROM `fbtype` WHERE `pos` = ".$pos);
+    for($i = $pos; $i < $count; $i++){
+        $db->query("UPDATE `fbtype` SET `pos` = ".($i)." WHERE `pos` = ".($i+1));
+    }    
+}
+
+//--------------------------- CHECKLIST ----------------------------------
+function getChecklists($db){
+    $checklists = "";
+    $getChecklistsSql = "SELECT * FROM `checklist` ORDER BY `checklistId`";
+    $checklistIds = $db->query($getChecklistsSql);
+    while($row = $checklistIds->fetch_object()){
+        $checklists .= '<button class="blueButton"><span class="nameChecklist">'.$row->name.'</span><span class="idHolder" style="display: none;">'.$row->checklistId.'</span></button>';
+    }
+    echo $checklists;
+}
+
+function newChecklist(){
+    $checklist = new Checklist();
+    $checklist->setValue("name",$_GET['values']['name']);
+    $checklist->save();
+}
+
+function getChecklistPoints($db){
+    $checklistPointsSql = "SELECT `checklistPointId` FROM `checklist_checklistpoints` WHERE `checklistId` = ".$_GET['values']['id']." ORDER BY `position`";
+    $checklistPointIds = $db->query($checklistPointsSql);
+    $checkpointsHtml = "";
+    while($row = $checklistPointIds->fetch_object()){
+        $point = new ChecklistPoint($row->checklistPointId);
+        $checkpointsHtml .= $point->returnAsHtmlBack();        
+    }
+    echo $checkpointsHtml;
+}
+
+function getChecklistPointEdit($db){
+    $getChecklistPointSql = "SELECT * FROM `checklistpoints` LEFT JOIN `checklist_checklistpoints` USING(`checklistPointId`) WHERE `position` = ".$_GET['values']['checklistPointPos'];
+    echo json_encode($db->query($getChecklistPointSql)->fetch_object());
+}
+
+/**
+ * takes $_GET['values']['current'] + checklistId  (or/and)  $_GET['values']['all'] 
+ * 
+ * @param object $db
+ * @return echoJson all screenshots/ current screenshots 
+ */
+function getScreenshotsChecklistPointAll($db){        
+    $screenshotsHtmlAll = '';
+    $screenshotsHtmlCurrent = array();
+    $response = array();
+        //all screenshots (for selection)
+    if($_GET['values']['all'] == true){            
+        $allScreenshotsSql = "SELECT `screenshotId` FROM `screenshots` WHERE 1";
+        $screenshotsAll = $db->query($allScreenshotsSql);
+        while($row = $screenshotsAll->fetch_object()){
+            $screenshot = new Screenshot($row->screenshotId);
+            $screenshotsHtmlAll .= $screenshot->returnThrumnailsAsHtmlBack();
+        }
+        $response['all'] = $screenshotsHtmlAll;
+    }else{
+        $response['all'] = NULL;
+    }    
+        //current screenshots
+    if($_GET['values']['current'] = true && isset($_GET['values']['checklistPointId'])){            
+       $currentScreenshotsSql = "SELECT `screenshotId` FROM `screenshots` LEFT JOIN `checklistpoint_screenshot` USING(`screenshotId`) WHERE `checklistPointId` = ".$_GET['values']['checklistPointId'];
+        $screenshotsCurrent = $db->query($currentScreenshotsSql);
+        $j = 0;
+        $response['current'] = array();
+        while($row = $screenshotsCurrent->fetch_object()){
+            $screenshot = new Screenshot($row->screenshotId);
+            $response['current'][$j] = $screenshot->returnThrumnailsAsHtmlBack();
+            $j++;
+        }
+    }else{  
+        $response['current'] = NULL;
+    }    
+    echo json_encode($response);    
+}
+
+
+function addNewChecklistPoint($db){
+        //update ChecklistPoint
+    if(isset($_POST['values']['checklistPointId'])){
+        $checklistPoint = new ChecklistPoint($_POST['values']['checklistPointId']);
+        $checklistPoint->setValue("heading",  strip_tags($_POST['values']['heading']));   
+        $checklistPoint->setValue("text",$_POST['values']['text']); 
+         $checklistPoint->save();
+        //
+    }
+        //create ChecklistPoint
+    else{
+            //create Checklists
+        $checklistPoint = new ChecklistPoint();
+        $checklistPoint->setValue("heading",  strip_tags($_POST['values']['heading']));   
+        $checklistPoint->setValue("text",$_POST['values']['text']);    
+        $checklistPoint->save();
+            //link to checklist
+        $checklistSql = "INSERT INTO `checklist_checklistpoints`(`checklistId`, `checklistPointId`, `position`, `hits`) VALUES (".$_POST['values']['checklistId'].",".$checklistPoint->getValue("id").",".$_POST['values']['pos'].",0)";
+        $db->query($checklistSql);        
+    }    
+    //link to screenshots
+    for($i = 0; $i <= count($_POST['values']['screenshotIds']); $i++){
+        echo $screenshotSql = "REPLACE INTO `checklistpoint_screenshot`(`checklistPointId`, `screenshotId`,`position`) VALUES (".$checklistPoint->getValue("id").",".$_POST['values']['screenshotIds'][$i].",".($i+1).")";  
+        $db->query($screenshotSql);        
+    }
+}
+
+function saveScreenshot($db){
+    $screenshot = new Screenshot();
+    $screenshot->setValue("name",$_GET['filename'])->setValue("description",$_GET['description'])->save();
+}
+
+function changeTypeIcon($db){
+    $db->query('Update `fbtype` SET `iconPath` = "'.$_GET['filename'].'" WHERE `fbtypeId` = '.$_GET['id']);
+}
+
+function deleteChecklist($db){
+    $db->query("DELETE FROM `checklist` WHERE `checklistId`=".$_GET['checklistId']);
+    $db->query("DELETE FROM `checklist_checklistpoints` WHERE `checklistId`=".$_GET['checklistId']);
+    $db->query("UPDATE `fbtype` SET `checklistId`= NULL WHERE `checklistId`=".$_GET['checklistId']);
+}
+
+function editChecklist($db){
+    $db->query('UPDATE `checklist` SET `name`= "'.$_GET['values']['name'].'" WHERE `checklistId`='.$_GET['values']['id']);
+}
+?>

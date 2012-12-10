@@ -1,0 +1,160 @@
+<section id="checklistPointsEdit">
+    <div id="checklistOptionsContainer">        
+        <button class="blueButton" id="deleteChecklistButton" title="Checklist löschen">löschen</button>
+        <button class="blueButton" id="editChecklistButton" title="Checklist bearbeiten">bearbeiten</button>
+    </div>
+    <div id="addChecklistPointButtonContainer">
+        <button class="blueButton" id="addChecklistPointButton" title="Neuen Checklistpunkt anlegen">+</button>
+    </div>    
+    <div id="checklistPointEditContainer">
+        
+    </div>
+</section>
+
+<!--     Dialoge          -->
+<div id="addChecklistPointDialog" title="Neuen Punkt anlegen">
+    <div id="addChecklistPointNew">
+        <div id="addChecklistPointNewIdHolder" style="display: none;"></div> 
+        <table>
+            <tr>
+                <td>Überschrift:&nbsp;</td>
+                <td><input id="addChecklistPointInputHeading" type="text" /></td>
+            </tr>
+            <tr>
+                <td>Text:&nbsp;</td>
+                <td><textarea id="addChecklistPointInputText"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button id="addChecklistPointScreenshotButton" class="blueButton" style="float: left;">Screenshots</button><button class="getScreenshotPathButton blueButton" style="float: left;">Screenshot Pfad</button></td>
+
+            </tr>        
+        </table> 
+        <button id="addChecklistPointInputSubmit" class="blueButton">Erstellen</button>
+    </div>      
+</div>
+
+
+
+<div id="addChecklistPointScreenshotDialog">
+    <div class="boxLayoutContainer">
+         <!--<div id="addChecklistPointCurrentScreenshots">
+             <div class="screenshotWrapper">                 
+                <div id="screenshotDummy1" class="addChecklistPointScreenshotsDropBevore"></div>
+                <div class="screenshotsControls">
+                    <div class="screenshotsControlsBackwarts" title="Zurück"></div>
+                    <div class="screenshotsControlsDelete" title="Löschen"></div>
+                    <div class="screenshotsControlsForward" title="Vor"></div>
+                </div>
+             </div>
+             <div class="screenshotWrapper">
+                <div id="screenshotDummy2" class="addChecklistPointScreenshotsDropBevore"></div>
+                <div class="screenshotsControls">
+                    <div class="screenshotsControlsBackwarts" title="Zurück"></div>
+                    <div class="screenshotsControlsDelete" title="Löschen"></div>
+                    <div class="screenshotsControlsForward" title="Vor"></div>
+                </div>
+             </div>
+             <div class="screenshotWrapper">
+                <div id="screenshotDummy3" class="addChecklistPointScreenshotsDropBevore"></div>
+                <div class="screenshotsControls">
+                    <div class="screenshotsControlsBackwarts" title="Zurück"></div>
+                    <div class="screenshotsControlsDelete" title="Löschen"></div>
+                    <div class="screenshotsControlsForward" title="Vor"></div>
+                </div>
+             </div>
+             <div class="screenshotWrapper">
+                <div id="screenshotDummy4" class="addChecklistPointScreenshotsDropBevore"></div>             
+                <div class="screenshotsControls">
+                    <div class="screenshotsControlsBackwarts" title="Zurück"></div>
+                    <div class="screenshotsControlsDelete" title="Löschen"></div>
+                    <div class="screenshotsControlsForward" title="Vor"></div>
+                </div>
+             </div>
+        </div> -->
+        <div id="addChecklistPointAvalibleScreenshots">
+            
+        </div>
+        <div id="addChecklistPointScreenshotButtonPane">
+            <!--<button class="blueButton" id="addChecklistPointScreenshotSubmit">Speichern</button>-->
+            <button class="blueButton" id="addChecklistPointNewScreenshotButton">Neuen Screenshot</button>
+        </div>
+    </div>   
+</div>
+
+
+
+<div id="addChecklistPointExistingDialog" title="Wähle Checkpoint">
+    <div id="existingChecklistPointsContainer">
+        
+    </div>    
+</div> 
+
+<div id="newScreenshotUploadDialog" title="Neuer Screenshot">
+    <table>
+        <tr>
+            <td>Beschreibung</td>
+            <td><textarea id="newScreenshotDescription"></textarea></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><div id="newScreenshotUploadButton" class="blueButton"></div></td>
+        </tr>
+    </table>    
+</div>
+
+
+<div id="editChecklistPointDialog" title="Punkt bearbeiten">
+    <div id="editChecklistPointNew">
+         <table>
+            <tr>
+                <td>Überschrift:&nbsp;</td>
+                <td><input id="editChecklistPointInputHeading" type="text" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><p id="editChecklistPointLinkTipp"><span style="font-weight: bold;">Verweise zu Bilder:</span> Link einfügen -> Anchor auswählen -> Anchor: Name des Bildes mit Dateiendung (.gif/.jpg/..)</p></td>
+            </tr>
+            <tr>
+                <td>Text:&nbsp;</td>
+                <td><textarea id="editChecklistPointInputText"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button id="editChecklistPointScreenshotButton" class="blueButton" style="float: left;">Screenshots</button><button class="getScreenshotPathButton blueButton" style="float: left;">Screenshot Pfad</button></td>
+                
+            </tr>        
+        </table> 
+        <button id="editChecklistPointInputSubmit" class="blueButton" style="float: left;">Ändern</button>
+        <button id="editChecklistPointInputDelete" class="blueButton" style="float: right;">Löschen</button>
+    </div> 
+    <span id="editChecklistPointDialogIdHolder" style="display: none;"></span>
+</div>
+
+<div id="editChecklistDialog">
+    <label>Name: </label><input id="editChecklistDialogName" type="text" />
+</div>
+
+<div id="screenshotPathsDialog" title="Screenshot Pfade">
+    <p>Bild auswählen -> Pfad kopieren -> als Bildpfad einfügen</p>
+    <table id="screenshotPathsTable">
+        
+    </table>    
+</div>
+
+<div id="path" title="Bildpfad" style="display: none; font-size: .8em;">
+    <p></p>
+</div>
+
+<div id="addChecklistPointOptionsDialog" style="display: none;">
+    <button id="addChecklistPointOptionNew" class="blueButton">Neu</button>
+    <button id="addChecklistPointOptionAdd" class="blueButton">Hinzufügen</button>
+</div>    
+
+<div id="addChecklistPointOptionAddDialog" style="display: none;">
+    <div style="position: fixed; width: 535px;">
+        <button id="addChecklistPointsImportSubmit">Import</button>
+        <button id="addChecklistPointsCopySubmit" style="float: right;">Kopieren</button>
+    </div>
+    <div id="existingChecklistPoints">
+        
+    </div>
+</div>

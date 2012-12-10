@@ -1,0 +1,102 @@
+<?php
+include_once 'model/DbObjects.php'; include_once 'model/Evaluable.php';
+
+class ChecklistPoint extends DbObjects implements Evaluable{
+    protected $checklistId;
+    protected $htmlChecklistPoint = "";    
+    protected $coloums,$table,$properties;
+    protected $screenshots = array();
+    
+    public function __construct($id = false) {
+        $this->checklistId = $id;
+        $this->properties = array("id"=>"", "text"=>"", "heading"=>"");
+        $this->coloums = array("checklistPointId","text","heading");
+        $this->table = "checklistpoints";
+        if($this->checklistId != false){
+            $dbData = $this->load($id)->fetch_object();
+                $this->properties['id'] = $dbData->checklistPointId;
+                $this->properties['text'] = $dbData->text;
+                $this->properties['heading'] = $dbData->heading; 
+        }else{
+            $this->createNewChecklistPoint();
+        }
+    }
+    
+    public function returnAsHtmlFront(){
+        $this->createHtmlFront();
+        return $this->htmlChecklistPoint;
+    }
+    
+    public function returnAsHtmlBack(){
+         $this->createHtmlBack();
+        return $this->htmlChecklistPoint; 
+    }
+    
+    public function count() {
+        
+    }
+    
+    private function createHtmlFront(){
+        strlen($this->properties['text']) > 1600 ? $followPoints = "..." : $followPoints = "";
+        
+        $this->htmlChecklistPoint .= '<div class="checklistPoint">'.
+                                        '<div class="heading"><img src="images/check.png" class="checkicon" />'.$this->properties['heading'].'</div>'.
+                                        '<div class="checklistPointPreview">'.
+                                            '<div class="screenshotContainer">'.$this->getScreenshots().                                            
+                                            ' </div>'.
+                                            '<div class="controls">'.
+                                                '<button class="checkButton">check</button>'.
+                                            '</div>'. 
+                                            '<div class="textContainer">'.substr($this->properties['text'], 0, 1600).$followPoints.'</div>'.   
+                                        '</div>'.          
+                                    '</div> ';
+    }
+    
+    private function createHtmlBack(){
+         $this->htmlChecklistPoint .= '<div class="checklistPointEdit">'.
+                                        '<div class="heading">'.$this->properties['heading'].'</div>'.
+                                        '<div class="checklistPointPreview">'.                                            
+                                            '<div class="textContainer">'.$this->properties['text'].$followPoints.'</div>'.   
+                                        '</div>'.          
+                                    '</div> ';
+    }
+    
+    private function getScreenshots(){
+        $screenshotsSql = "SELECT `name`,`description` FROM `screenshots` Left JOIN `checklistpoint_screenshot` USING(`screenshotId`)".
+                          " LEFT JOIN `checklistpoints` USING(`checklistPointId`) WHERE `checklistPointId` = ".$this->properties['id']." ORDER BY `position`";
+        $screenshots = $this->select($screenshotsSql);
+        $i = 1;
+        $screenshotsHtml = array();
+        while($row = $screenshots->fetch_object()){
+            $screenshotsHtml[$i] .= '<div class="screenshotsGeneral screenshot'.$i.'"><img src="images/screenshots/'.$row->name.'" alt="'.$row->description.'" title="'.$row->description.'" /></div>';
+            $i++;
+        }
+        return "".$screenshotsHtml[2]."".$screenshotsHtml[1]."".$screenshotsHtml[4]."".$screenshotsHtml[3];
+    } 
+    
+    private function createNewChecklistPoint(){
+             //get next free id
+        $takenIds = $this->select("SELECT `checklistPointId` FROM `checklistpoints` ORDER BY `checklistPointId`");            
+        $freeTry = 1;
+        while($row = $takenIds->fetch_object()){
+            if($row->checklistPointId != $freeTry){
+                $freeId = $freeTry;
+            }else{ $freeTry++; }
+        }
+        isset($freeId) ? $freeId : $freeId = $freeTry++;
+        $this->properties['id'] = $freeId;
+    }
+    
+    
+    
+    
+    public function setValue($key, $value){
+         $this->properties[$key] = $value;
+    }
+    
+    public function getValue($key){
+        return $this->properties[$key];
+    }
+}
+
+?>

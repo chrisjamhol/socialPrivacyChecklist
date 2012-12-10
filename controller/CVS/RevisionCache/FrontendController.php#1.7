@@ -1,0 +1,43 @@
+<?php 
+include_once 'model/Includer.php';
+$includer = new Includer();
+$includer->includeShit();
+    $db = DbConnector::getInstance()->connect();
+    
+    function createChecklistView($db){
+        $id = $_GET['id'];
+        if($id != ""){
+            $checklist = new Checklist($id);
+            echo $checklist->returnAsHtml();
+        }else{
+            echo '<p>Leider keine Checkliste für diesen Typ gefunden</p>';
+        }        
+    }
+    
+    function getFbTypes($db){
+         $getFbTypesSql = "SELECT `fbtypeId` FROM `fbtype` ORDER BY `pos`";
+         $result = $db->query($getFbTypesSql);	   
+         $typesHtml = "";
+         while ($row = $result->fetch_object()){
+             $type = new FbType($row->fbtypeId);
+             $typesHtml .= $type->getTypesHtml("frontend");             
+         }
+         echo $typesHtml;       
+    }
+    
+    function getChecklistIdByName($db){
+        $data = $db->query('SELECT `checklistId`,`iconPath` FROM `fbtype` WHERE `name`="'.$_GET['name'].'"')->fetch_object();
+        echo json_encode(array("id"=>$data->checklistId, "iconPath"=>$data->iconPath));
+    }
+     
+    function getScreenshotData($db){
+        echo json_encode(getimagesize($_GET['source']));
+    }
+    
+    function sendListAsMail(){        
+        include_once 'model/ListAsMail.php';
+        $mail = new ListAsMail();
+        echo $mail->create($_GET['checklistId'],$_GET['to']);
+        
+    }
+?>

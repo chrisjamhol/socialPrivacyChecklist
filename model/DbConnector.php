@@ -11,16 +11,11 @@ class DbConnector{
         $this->dbname = 'facebooksecurity';        
     }
     
-    private function testServer(){
-        $this->host = '192.168.1.251';
-        $this->user = 'root';
-        $this->pass = '$*TaMaG-IT!';
-        $this->dbname = 'facebooksecurity';
-    }
+    //enter dbInformation like private function live(){}
     
     public function connect(){
         $this->local();
-        #$this->testServer();
+        #$this->live();
         try{
             $db = new mysqli($this->host,$this->user,$this->pass,$this->dbname);
             $db->set_charset('utf8');

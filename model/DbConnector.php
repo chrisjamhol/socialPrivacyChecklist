@@ -9,14 +9,16 @@ class DbConnector{
         $this->user = 'root';
         $this->pass = '';
         $this->dbname = 'facebooksecurity';        
-    }
-    
-    //enter db information
-    //private function live(){}
+    }   
+
+    //enter dbInformation like 
+	//private function live(){
+	//	$this->host = "......
+	//}
     
     public function connect(){
         $this->local();
-        #$this->testServer();
+        #$this->live();
         try{
             $db = new mysqli($this->host,$this->user,$this->pass,$this->dbname);
             $db->set_charset('utf8');

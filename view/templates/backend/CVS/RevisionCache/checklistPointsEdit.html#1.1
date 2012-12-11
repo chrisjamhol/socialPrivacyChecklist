@@ -1,0 +1,90 @@
+<section id="checklistPointsEdit">
+    <div id="addChecklistPointButtonContainer">
+        <button class="blueButton" id="addChecklistPointButton">+</button>
+    </div>
+    <div id="checklistPointEditContainer">
+        
+    </div>
+</section>
+
+<!--     Dialoge          -->
+<div id="addChecklistPointDialog" title="Neuen Punkt anlegen">
+        <!-- choice between new Point or existing -->
+    <button id="addNewChecklistPointDialogChoiceNew" class="blueButton">Neu</button>
+    <button id="addNewChecklistPointDialogChoiceExisting" class="blueButton">Durchsuchen</button>
+        <!-- choice between new Point or existing -->
+    <div id="addChecklistPointNew">
+         <table>
+            <tr>
+                <td>Überschrift:&nbsp;</td>
+                <td><input id="addChecklistPointInputHeading" type="text" /></td>
+            </tr>
+            <tr>
+                <td>Text:&nbsp;</td>
+                <td><textarea id="addChecklistPointInputText"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button id="addChecklistPointScreenshotButton" class="blueButton">Screenshots</button></td>
+
+            </tr>        
+        </table> 
+        <button id="addChecklistPointInputSubmit" class="blueButton">Erstellen</button>
+    </div>      
+</div>
+
+
+
+<div id="addChecklistPointScreenshotDialog">
+    <div class="boxLayoutContainer">
+         <div id="addChecklistPointCurrentScreenshots">
+             <div id="screenshotDummy1" class="addChecklistPointScreenshotsDropBevore"></div>
+             <div id="screenshotDummy2" class="addChecklistPointScreenshotsDropBevore"></div>
+             <div id="screenshotDummy3" class="addChecklistPointScreenshotsDropBevore"></div>
+             <div id="screenshotDummy4" class="addChecklistPointScreenshotsDropBevore"></div>             
+        </div>
+        <div id="addChecklistPointAvalibleScreenshots">
+            
+        </div>
+        <div id="addChecklistPointScreenshotButtonPane">
+            <button class="blueButton" id="addChecklistPointScreenshotSubmit">Speichern</button>
+            <button class="blueButton" id="addChecklistPointNewScreenshotButton">Neuen Screenshot</button>
+            <button class="blueButton" id="addChecklistPointScreenshotClear">Auswahl leeren</button>
+        </div>
+    </div>   
+</div>
+
+
+
+<div id="addChecklistPointExistingDialog" title="Wähle Checkpoint">
+    <div id="existingChecklistPointsContainer">
+        
+    </div>    
+</div> 
+
+<div id="newScreenshotUploadDialog" title="Neuer Screenshot">
+    <textarea id="newScreenshotDescription"></textarea>
+    <div id="newScreenshotUploadButton"></div>
+    <button id="addChecklistPointNewScreenshotSubmit">Save</button>
+</div>
+
+
+<div id="editChecklistPointDialog" title="Neuen Punkt anlegen">
+    <div id="editChecklistPointNew">
+         <table>
+            <tr>
+                <td>Überschrift:&nbsp;</td>
+                <td><input id="editChecklistPointInputHeading" type="text" /></td>
+            </tr>
+            <tr>
+                <td>Text:&nbsp;</td>
+                <td><textarea id="editChecklistPointInputText"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button id="editChecklistPointScreenshotButton" class="blueButton">Screenshots</button></td>
+
+            </tr>        
+        </table> 
+        <button id="editChecklistPointInputSubmit" class="blueButton">Erstellen</button>
+    </div> 
+    <span id="editChecklistPointDialogIdHolder" style="display: none;"></span>
+</div>

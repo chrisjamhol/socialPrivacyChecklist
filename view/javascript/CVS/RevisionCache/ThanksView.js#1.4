@@ -1,0 +1,47 @@
+ThanksView = function(){
+    this.init = function(html){
+        document.location.hash = "#thanks";                
+        $('#mainContent').load(html,function(){
+            loadingContent();
+        });           
+        
+    }
+    
+    this.loadingContent = function(){
+        $('#followSubscribe').click(function(){
+            $('#followDialog').dialog();           
+        });
+
+        $('#backToChecklistButton').click(function(){
+            console.log("clicked back to checklist");
+            $('#followDialog').dialog("close");
+            history.back();
+        });
+        
+        $('#feedbackButton').click(function(){
+            var info = {
+                "name": $('#feedbackInputName').val(), 
+                "mail": $('#feedbackInputMail').val(),
+                "message": $('#feedbackInputMessage').val()
+            };
+            var error = "";
+            var check = true;
+                $.map(info,function(value,key){
+                    if(value == "" && key != "name"){
+                        check = false;
+                        error = "*Bitte überprüfe die Eingaben";
+                   }
+                });
+           
+           check ? $.get("index.php",{"from": "front", "op": "saveFeedback", "data": info},function(){$('#feedback').html("Danke für dein Feedback")}) : $('#feedbackErrorMessage').text(error);
+            
+        });
+    }
+    
+    var loadingContent = this.loadingContent;
+    
+}
+
+function getView(){
+    return ThanksView;
+}

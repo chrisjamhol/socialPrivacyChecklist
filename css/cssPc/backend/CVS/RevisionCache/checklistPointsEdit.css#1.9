@@ -1,0 +1,291 @@
+#checklistPointsEdit{
+    display: box;
+    box-orient: horizonal;
+    box-align: center;
+    box-pack: center;
+    width: 100%;
+}
+
+#addChecklistPointButton{
+    display: box;    
+    box-flex: 1;
+}
+
+    #addChecklistPointButtonContainer,#checklistOptionsContainer{
+        display: box;
+        box-flex: 2;
+        box-orient: vertical;
+        box-align: end;
+        font-size: 1em;
+    }
+    
+    #checklistOptionsContainer button{
+        font-size: 1em;
+        width: 90px;
+    }
+   
+ #checklistPointEditContainer{
+    display: box;
+    box-flex: 12;
+    box-orient: vertical;
+    box-align: center;
+}
+
+.checklistPointEdit{
+    display: box;
+    box-orient: vertical;
+    max-width: 450px;
+    border: 1px solid black;
+    margin: 5px;
+    padding: 10px;
+    width: 450px; 
+    float: left;
+}
+
+    .checklistPointEdit:hover{
+        border: 1px solid #FF1E1E;
+    }
+
+    .checklistPointEdit .heading{
+        display: box;
+        border-bottom: 1px solid lightgray;
+    }
+    
+    .checklistPointEdit .checklistPointPreview{
+        display: box;
+    }
+    
+        .checklistPointEdit .checklistPointPreview .textContainer{
+            max-height: 280px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 450px;            
+        }           
+    
+    .checklistPointOderContainer{
+        float: left;
+        opacity: .8;
+    }
+        
+        .checklistPointOrderButtonUp,.checklistPointOrderButtonDown{
+            font-size: .7em;
+        }
+    
+/*                   -- Dialoge --                    */
+
+#addChecklistPointDialog,#editChecklistPointDialog{
+    display: none;
+}
+
+    #addNewChecklistPointDialogChoiceNew,#addNewChecklistPointDialogChoiceExisting{
+        float: left;
+    }
+    
+    #addChecklistPointInputHeading,#addChecklistPointInputText,#editChecklistPointInputHeading,#editChecklistPointText{
+        width: 700px;
+    }
+    
+    #addChecklistPointInputText,#editChecklistPointInputText{
+        height: 300px;
+    }
+    
+    #addChecklistPointInputSubmit{
+        float: right;
+    }
+    
+    #addChecklistPointLinkTipp,#editChecklistPointLinkTipp{
+        font-size: .7em;
+        margin-bottom: 0px;
+    }
+
+#addChecklistPointNew{
+    display: none;
+}
+
+#addChecklistPointScreenshotDialog{
+    display: none;
+}
+    
+    .boxLayoutContainer{
+        display: box;
+        box-orient: vertical;
+        box-pack: center;
+        box-align: center;
+        width: 100%;
+        height: 100%;
+    }
+    
+        #addChecklistPointCurrentScreenshots{
+            display: box;
+            box-flex: 2.5;
+            box-orient: horizontal;
+            box-pack: center;
+            box-align: center;
+        }
+            
+            .screenshotWrapper{
+                display: box;
+                box-orient: vertical;
+            }
+        
+            .screenshotsControls{
+
+            }
+                .screenshotsControlsBackwarts, .screenshotsControlsForward, .screenshotsControlsDelete{
+                    width: 13px;
+                    height: 15px;
+                    background-image: url('images/sprites/icons.png');
+                    overflow: hidden;
+                }
+                .screenshotsControlsBackwarts{background-position-x: -97px; background-position-y: -19px}
+                .screenshotsControlsForward{background-position-x: -33px; background-position-y: -19px}
+                .screenshotsControlsDelete{background-position-x: -176px; background-position-y: -99px}
+        
+            #addChecklistPointCurrentScreenshots div{
+                display: box;
+                 box-pack: center;
+                 box-align: center;
+            }
+            
+                #addChecklistPointCurrentScreenshots div img{
+                    max-width: 80px;
+                    max-height: 100px;
+                }
+        
+            .addChecklistPointScreenshotsDropBevore{
+                display: box;
+                height: 100px;
+                width: 80px;
+                background: #F9F9F9;
+                border: 2px dotted black;
+                margin: 5px;
+            }
+            
+            .addChecklistPointScreenshotsDropAfter{
+                 display: box;
+                height: 100px;
+                width: 80px;
+                background: white;
+                border: none;
+                margin: 5px;
+            }
+            
+            #newScreenshotUploadDialog{
+                display: none;
+                font-size: .8em;
+            }
+            
+                #newScreenshotDescription{
+                    height: 100px;
+                }
+                
+                #newScreenshotUploadButton{
+                    font-size: 1.2em;
+                    padding-top: 6px;
+                    padding-bottom: 3px;
+                    padding-left: 20px;
+                }
+        
+        .addChecklistPointScreenshotsDrop{
+            
+        }
+        
+            .addChecklistPointScreenshotsDrop img{
+                max-height: 100px;
+            }
+            
+        #addChecklistPointAvalibleScreenshots{
+            display: box;
+            box-flex: 2.5;
+            box-orient: horizontal;
+            box-align: center;
+            box-pack: center;
+            overflow-y: hidden;
+            overflow-x: scroll;
+            height: 200px;
+            width: 450px;
+            padding-top: 15px;
+        }
+        
+            #addChecklistPointAvalibleScreenshots img{
+                display: box;
+                margin: 5px;
+                max-height: 190px;
+                transition: all ease-out 0.5s;
+            }
+        
+        #addChecklistPointScreenshotButtonPane{
+            display: box;
+            box-flex: 1;
+            box-orient: horizontal;
+        }
+
+#addChecklistPointExistingDialog{
+    display: none;
+}
+
+body .redactor_toolbar li a.redactor_btn_linkToText span{
+    background: url(images/redactorButtons/textLink.png) no-repeat;
+}
+
+#editChecklistDialog{
+    display:none;
+}
+
+#screenshotPathsDialog{
+    display: none;
+    overflow: auto;
+    overflow-x: hidden; 
+}
+
+    #screenshotPathsTable{
+        width: 100%;
+    }
+
+    #screenshotPathsTable img{
+        padding: 5px;        
+    }
+    
+    #screenshotPathsTable tr{
+        cursor: pointer;
+    }
+    
+    #screenshotPathsTable tr:hover{
+        background-color: lightgray;
+    }
+    
+#addChecklistPointOptionAddDialog{
+    
+}
+
+    #existingChecklistPoints{
+        font-size: .6em; 
+        display: box;
+        box-orient: vertical;
+        overflow-y: scroll;
+        height: 500px;
+        margin-top: 40px;
+    }
+    
+        .allPointsCol1{
+            overflow: hidden;
+            width: 50px;
+        }
+        
+        .allPointsCol2{
+            overflow: hidden;
+            width: 175px;
+        }
+        
+        .allPointsCol3{
+            overflow: hidden;
+            width: 375px;
+        }
+        
+        .allPointsRow{
+            display: box;
+            box-orient: horizontal;
+            height: 100px;
+            overflow: hidden;
+            padding: 5px;
+        }

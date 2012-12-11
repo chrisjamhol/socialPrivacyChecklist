@@ -1,0 +1,65 @@
+<section id="fbTypesEdit">    
+    <div id="addFbTypeButtonContainer">        
+        <button id="addFbTypeButton" class="blueButton">+</button>
+    </div>
+    <div id="fbTypesContainerEdit">        
+       
+    </div>
+    <div id="fbTypesOrder">        
+    
+    </div>
+</section>
+
+<div id="newFbTypeDialog" title="Neuer Typ">
+    <table>
+        <tr>
+            <td><span id="requiredFieldNameNewFb" class="requiredField">* </span></td>
+            <td>Name</td>
+            <td><input id="newFbTypeInputName" type="text" /></td>
+        </tr>       
+        <tr>
+            <td><span id="requiredFieldPosNewFb" class="requiredField">* </span></td>
+            <td>Position</td>
+            <td><input id="newFbTypeInputPos" type="text" size="2"/></td>
+        </tr>
+        <tr>
+            <td><span id="requiredFieldIconNewFb" class="requiredField">* </span></td>
+            <td>Icon</td>
+            <td><div id="iconUpload"></div></td>
+        </tr>
+         <tr>
+            <td><span id="requiredFieldDescNewFb" class="requiredField">* </span></td>
+            <td>Beschreibung</td>
+            <td><textarea id="newFbTypeInputDesc" style="width: 250px"></textarea></td>
+        </tr>
+    </table>    
+    
+    <button id="submitNewType" class="blueButton">Erstellen</button> 
+</div>
+
+<div id="editFbTypeDialog" title="Typ editieren">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input id="fbTypeEditInputName" size="25"/></td>
+        </tr>
+        <tr>
+            <td>Beschreibung</td>
+            <td><textarea id="fbTypeEditDesc" style="width: 213px; height: 150px;"></textarea></td>
+        </tr>
+<!--        <tr>
+            <td>Position</td>
+            <td><input id="fbTypeEditInputPos" size="2"/></td>
+        </tr>
+        <tr> -->
+            <td>Checkliste</td>
+            <td><select id="fbTypeEditSelectChecklist"></select></td>
+        </tr>
+    </table>
+    <button id="submitFbTypeEdit" class="blueButton" style="float: left;">Änder</button><button id="changeIconButton" class="blueButton" style="float:right;">Icon ändern</button>
+</div>
+
+<div id="changeIconDialog" title="Icon ändern" style="display: none;">
+    <div id="currentIcon" style="text-align: center;"></div>
+    <div id="changeIconUpload"></div>    
+</div>

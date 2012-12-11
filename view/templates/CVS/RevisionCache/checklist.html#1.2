@@ -1,0 +1,30 @@
+<div id="checklistOptions">
+    <div id="printChecklistButton" title="Checklist drucken"></div>
+    <div id="mailChecklistButton" title="Checklist per Mail senden"></div>
+</div>
+<div id="checklistContainer">
+   
+</div>
+<div id="screenshotZoom">
+    
+</div>
+    
+<div id="printDialog">
+    
+</div>
+    
+<div id="mailDialog" title="Checkliste als Mail">
+    <form>
+        <label id="emailFirstLabel"><span class="mailDialogErrorIndicator">*</span>e-mailadresse</label><br />
+        <input  type="text" id="emailFirst" maxlength="80" size="30"><br /><br />
+        <label id="emailSecondLabel"><span class="mailDialogErrorIndicator">*</span>e-mailadresse bestätigen</label><br />
+        <input  type="text" id="emailSecond" maxlength="80" size="30"><br />
+        <div id="mailAgreements">
+            <span class="mailDialogErrorIndicator">*</span><input type="checkbox" id="checkboxEmailConfirm" style="float: left;"/>
+            <p>Hiermit bestätige ich das die Checklist an mich per mail versand werden darf.</p>
+        </div>           
+    </form>
+    <div id="mailDialogError"><p></p></div>
+    <button id="sendMailButton">Senden</button>
+    <button id="cancelSendMailButton">Abbrechen</button>
+</div>

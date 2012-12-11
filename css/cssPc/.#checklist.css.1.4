@@ -1,0 +1,177 @@
+#checklistContainer{
+    position: relative;
+    height: 670px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 25px;
+    padding: 2px;
+    overflow: hidden;
+}
+
+#checklistContainer .controls{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 50px;
+    height: 30px;
+    padding: 8px;
+    border-top: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid #A1A293;
+    border-left: 1px solid #A1A293
+}
+
+#checklistContainer .controls .checkButton{
+
+}
+
+#checklistContainer .checklistPoint{   
+    position: absolute;
+    left: 968px;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    transition: left 1s linear;    
+}
+
+#checklistContainer .checklistPoint:first-child{
+    left: 0px;
+}
+
+#checklistContainer .checklistPointPreview{
+    position: relative;
+    background-color: white;
+    overflow: hidden;
+    padding: 25px 15px 15px 15px;    
+}
+
+#checklistContainer .heading{
+    padding: 15px;
+    border-top: 1px solid #A1A293;    
+}
+
+#checklistContainer .heading .checkicon{
+    display: none;
+}
+
+#checklistContainer .textContainer{       
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+#checklistContainer .screenshotContainer{
+    height: 175px;
+    border: 1px solid black;
+}
+
+#checklistContainer img{
+
+}
+
+#checklistContainer .screenshotsGeneral{
+    padding: 5px;
+    height: 90px;
+    width: 140px;
+}
+
+#checklistContainer .screenshotsGeneral{
+    float: right;
+}
+
+#checklistContainer .screenshot3{
+    clear: right;
+} 
+
+#checkedPointContainer{
+    width: 800px;
+    margin: 0 auto;
+}
+
+.checkedPoint{
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#checklistOptions{
+    height: 40px;
+    background-color: white;
+    padding-bottom: 5px;
+    margin-left: 25px;
+}
+
+#printChecklistButton, #mailChecklistButton, #followButton{
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    float: left;   
+    overflow: hidden;    
+    margin-left: 8px;
+}
+
+#mailIcon,#printIcon,#followIcon{
+    position: absolute;
+    top: 175px;
+    width: 25px;
+    height: 25px;
+}
+
+
+#screenshotZoom{
+    display: none;
+    position: absolute;
+    box-shadow: 0 0px 10px black; 
+    max-width: 510px;
+    max-height: 510px;
+    overflow: hidden;
+    background-color: white;
+    z-index: 99999;
+}
+
+.hoverZoom{
+    margin: 5px;
+    max-height: 500px;
+    max-width: 500px;
+}
+
+/*     dialogs                */
+
+#printDialog{
+    display: none;
+}
+
+#mailDialog{
+    display: none;
+}
+
+#mailDialog form label{
+    font-weight: bold;
+}
+
+#mailDialog form input{
+    margin-top: 4px;
+}
+
+#sendMailButton span,#cancelSendMailButton span{
+    font-size: .8em;
+}
+
+.mailDialogErrorIndicator{
+    display: none;
+    color: red;
+}
+
+#mailDialogError{
+    color: red;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+#followDialog{
+    display: none;
+    text-align: center;
+    width: 150px;
+    height: 100px;
+}
+

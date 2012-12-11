@@ -1,0 +1,185 @@
+/* ------------------------- mainContent ----------------------------*/
+
+html{
+    position: relative;
+    
+}
+
+#startContainer{
+    background-color: white;
+}
+    
+    #welcomeText{
+        margin: 0px;
+        height: 50px;
+        width: 960px;
+        max-width: 960px;       
+        text-align: left;
+        font-size: 2em;
+        background-color: white;
+        transition: all 1s ease-out;
+    } 
+        #welcomeText div{ 
+            margin: 50px;
+        }       
+        
+        #welcomeText p{
+            float: right;
+            margin-right: 125px;
+        }
+
+        /* ------------------------- typeSelection ----------------------------*/            
+        #typeSelection{
+            
+        }
+        
+            .screen-reader-text {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            .typeIcon{
+                max-height: 60px;
+                max-width: 60px;
+                vertical-align: middle;
+            }
+            
+            .idHolder{
+                display: none;
+            }
+            
+            .nav li a span{                
+                vertical-align: middle;
+            }
+
+            /*.icon-home:after     { content: "\2302"; } */                  
+
+            .nav{
+                position: relative;
+                list-style: none;
+                text-align: center;  
+                height: 100%;
+            }
+
+            .nav li ,#chosen{
+                position: absolute;
+                left: 5000px;
+                top: 0px;
+                display: inline-block;
+                margin-right: -4px;
+                transition: all 1s ease-out;
+            }
+            
+            .typeButtonText{
+                margin-top: 0px;
+                padding-top: 0px;
+                font-size:  1.2em;
+                color: #463BC3;    
+                margin-bottom: 40px;
+             }       
+             
+            .nav a:link, .nav a:visited ,#chosen a:link, #chosen a:visited{
+                display: block;
+                text-decoration: none;
+                background-color: #f7f7f7;
+                background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7));
+                background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7); 
+                background-image: -moz-linear-gradient(top, #f7f7f7, #e7e7e7); 
+                background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7); 
+                background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7); 
+                color: #a7a7a7;
+                margin: 25px;
+                width: 144px;
+                height: 144px;
+                position: relative;
+                text-align: center;
+                line-height: 144px;
+                border-radius: 50%;   
+                box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+                border: solid 1px transparent;
+            }
+
+            .nav a:before {            
+                content: "";
+                display: block;
+                background: #fff;
+                border-top: 2px solid #ddd;
+                position: absolute;
+                top: -18px;
+                left: -18px;
+                bottom: -18px;
+                right: -18px;
+                z-index: -1;
+                border-radius: 50%;
+                box-shadow: inset 0px 8px 48px #ddd;
+            }
+            
+               #chosenElementList .chosen{
+                    border-radius: 50%;
+                    /*border-left: 1px solid #BABABA;*/
+                    box-shadow: none;
+                    background-image: url('images/background/pattern.png');                    
+                    transition: none;
+                }
+            
+            .nav a:active ,#chosen a:active{
+                box-shadow: none;
+                border: solid 1px #a7a7a7;
+            }
+
+            .nav a:hover ,#chosen a:hover{
+                text-decoration: none;
+                color: #555;
+                background: #f5f5f5;
+            }​   
+            
+            #chosenElement{
+                position: absolute;
+                text-decoration: none;                
+            }
+            
+#hoverText{
+    display: none;
+    position: absolute;
+    background-color: white;
+    padding: 5px;
+    box-shadow: 0 0px 10px black;
+}
+
+    #tooltip{
+        display: none;
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background-image: url("images/background/pfeil.png");
+    }
+ 
+/* ------------------------- Sidebar ----------------------------*/
+    
+#sidebar{
+    display: none;
+    float: left;
+    width: 25%;
+    height: 100%;
+    border-right: 1px solid lightgrey;
+    text-align: center;
+    font-size: 3em;
+}
+
+#progressBar{
+    display: inline-block;
+    height: 15px;
+    background: white;
+}
+
+    #progress{
+        display: block;
+        height: 100%;
+        background-color: green;
+        background-color: rgba(0,128,0,.8);
+    }
+    
+#checklistDummy{
+    background: white;
+}

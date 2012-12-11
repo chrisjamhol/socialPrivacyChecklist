@@ -1,0 +1,99 @@
+StartView = function(){
+    //   var x = 10;
+    //    $.map($('.nav li'),function(value,key){
+    //        console.log(value);
+    //       $(value).animate({top:(282+x)+'px',left:(582-(x+100))+'px'},{queue:false,duration:1000,delay:x+900});
+    //       x = x+10;
+    //    });
+    this.init = function(html){
+        $('#mainContent').load(html);
+        $.get("index.php",{"from": "front","op":'getFbTypes'},function(types){
+           flyin(types);            
+        });
+    }
+    
+     
+};   
+
+function sendRequest(id,source){
+   $('#welcomeText p').text("");
+   var yChosen = ($('#welcomeText').height()/2)-($('.nav li').height()/2) - parseInt($('.nav li a').css("margin"));
+   var xChosen = (($('#.nav li').width()/2)) *-1;
+   var yLeftover = $('#header').height();
+   var xLeftover = 0; //$('#mainContent').width()-$('.nav li').width();
+   $.map($('.nav li a'),function(value,key){
+      if($(value).attr("href") == ('#'+source)){
+         //chosen element    
+          console.log($('.nav li:eq('+key+')').parent());
+          $('.nav li:eq('+key+')').removeAttr("onClick");
+          window.setTimeout(function(e){               
+                $('.nav li:eq('+key+')').attr("id","chosen");                
+                $('#chosen').appendTo('#chosenElementList');
+                $('#chosen').css("transition","none");
+                
+                $('#chosen').css("top",$('#chosen').offset().top);
+                $('#chosen').css("left",$('#chosen').offset().left);
+                $('#chosen').css("position","absolute");
+               // $('#chosen').css("transition","all 1s ease-out");
+                //$('#chosen').css("top",yChosen + $('#header').height());
+                //$('#chosen').css("left",xChosen);                
+                window.setTimeout(function(){
+                    $('#chosen a').css("box-shadow","none");
+                    $('#chosen a').css("border-color","#a7a7a7");
+                    $('#chosen').css("z-Index","9999");
+                    $('#welcomeText p').text($('#chosen .typeButtonText').html());
+                    $('#chosen .typeButtonText').html("");
+                    $('#chosen').addClass('chosen');
+                        loadNewView("checklist.html","cssPc/checklist.css","ChecklistView.js",{"id":id});  //load checklistView
+                },1050);                
+          },500);
+       }else{
+        //leftover elements           
+           //window.setTimeout(function(){
+              // animationToPoint(yLeftover,xLeftover,key,function(){
+                   $('.nav li:eq('+key+')').css("opacity","0");
+              // });
+           //});
+       } 
+   }); 
+}
+
+/**
+ * let types fly in
+ */
+function flyin(types){
+    $('.nav').html(types);
+     
+    var cols = 4;
+    var y = 0;//$('#header').height()+$('#welcomeText').height();
+    var x = (($('#mainContent').width()-($('#.nav li').width()*4))/2)
+    
+    $.map($('.nav li'),function(value,key){
+       if((key/cols) == 1){
+           x = (($('#mainContent').width()-($('#.nav li').width()*4))/2);
+       }       
+       x = x+$('.nav li').width();  
+             
+       if(((key/cols)%1) == 0 && key != 0){  // new col
+          x = (($('#mainContent').width()-($('#.nav li').width()*4))/2);
+          y = y+$('.nav li').height();
+       }     
+        
+       if(key == 0){
+           x = (($('#mainContent').width()-($('#.nav li').width()*4))/2);
+       } 
+       window.setTimeout("animationToPoint("+y+","+x+","+key+")",key*400);
+    });
+}
+
+function animationToPoint(y,x,key,callback){   
+    $('.nav li:eq('+key+')').css("left",x);
+    $('.nav li:eq('+key+')').css("top",y);
+    window.setTimeout(function(){        
+        if(typeof(callback)  != "undefined"){callback();}
+    },1000);
+}
+
+function getView(){
+    return StartView;
+};

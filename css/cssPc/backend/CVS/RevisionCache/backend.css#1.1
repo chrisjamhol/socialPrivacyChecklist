@@ -1,0 +1,112 @@
+html{width: 100%; height: 100%;}
+
+body{
+    display: box;
+    box-orient: horizontal;
+    
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    overflow: hidden;
+    
+    background-color: #F9F9F9;
+}
+
+    hr{
+        width: 100%;
+    }
+    
+.requiredField{
+    display: none;
+    color: red;
+}
+
+.col{
+    display: box;
+    box-pack: center;
+    border: 1px solid lightgray;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#col1{
+    box-flex: 1;
+    box-orient: vertical;
+}
+
+#col2{
+    box-flex: 8;
+    box-orient: vertical;
+    box-pack: center;    
+}
+
+#col3{
+    box-flex: 12;
+}
+
+button{
+    cursor: pointer;
+}
+
+#col1 button, #col2 button, #articleCatDropdown p, .blueButton{ 
+    display: box;    
+    background-color:#4D90FE;
+    background-image:-webkit-linear-gradient(top, #4D90FE, #4787ED);
+    background-image:-moz-linear-gradient(top, #4D90FE, #4787ED);
+    background-image:-ms-linear-gradient(top, #4D90FE, #4787ED);
+    background-image:-o-linear-gradient(top, #4D90FE, #4787ED);
+    border:1px solid #3079ED;
+    color:#FFFFFF;
+    border-radius: 5px;
+    font-size: 1.4em;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+   #col1 button:hover, #col1 button:visited, #col1 button:focus, #col1 button:active, #articleCatDropdown p:hover, #articleCatDropdown p:focus, #articleCatDropdown p:activ, .blueButton:hover, .blueButton:active, .blueButton:focus {
+        background-image: -webkit-linear-gradient(top, #3983FD, #2F7DFD);
+        background-image: -moz-linear-gradient(top, #3983FD, #2F7DFD);
+        background-image: -ms-linear-gradient(top, #3983FD, #2F7DFD);
+        background-image: -o-linear-gradient(top, #3983FD, #2F7DFD);
+        text-decoration: none;
+    } 
+    
+    *::-webkit-scrollbar {
+        width: 12px;
+        border: 1px solid white;
+    }
+
+    *::-webkit-scrollbar-track {
+        background-color: #F9F9F9;
+        -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, .5);
+    }
+
+    *::-webkit-scrollbar-thumb {   
+        background-color: #BCBCBC;
+    }       
+
+/*          Dialogs               */
+
+#newCatDialog {
+    display: none;
+    padding: 5px;    
+}
+
+    #newCatSubmitButoon{
+        margin-top: 5px; 
+    }
+
+
+
+
+
+
+
+
+/*           jQuery                */
+.ui-dialog .ui-dialog-titlebar {
+    height: 10px;
+    padding: 0.3em 1em 0.6em 1em;
+}

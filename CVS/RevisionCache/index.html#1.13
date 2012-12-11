@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:fb="http://ogp.me/ns/fb#">
+    <head>
+        <meta charset="UTF-8">
+        <meta property="og:title" content="AddThis Tour" /> 
+        <meta property="og:description" content="Check out the new Privacy Security Checklist" />  
+        <meta property="og:image" content="http://www.w3schools.com/images/w3schoolslogo.gif" /> 
+        <title>Facebook Security</title>
+        <link href="css/cssPc/main.css" rel="stylesheet" type="text/css">
+        <link href="tools/jQuery/Aristo.css" rel="stylesheet" type="text/css">
+        
+        <script src="tools/jQuery/jquery1.7.2.js"></script>
+        <script src="tools/jQuery/jqueryui1.8.21.js"></script>
+        <script src="view/javascript/WelcomeView.js"></script> 
+        <script src="view/javascript/HashNav.js"></script>
+            <!-- loadNewView () -->
+        <script>
+             /**
+             * takes paths for: html,css,js,callback
+             * 
+             */            
+            var loadNewView = function(html,css,js,params,callback){ 
+                //---------- css ---------------
+               $.get("css/"+css, function(cssData) {
+                    $("head").append("<style type='text/css'>"+cssData+"</style>");
+                             //----------- script --------------
+                        $.getScript("view/javascript/"+js,function(){
+                                    //----------- view -----------------
+                            var ViewName = getView();
+                            var view = new ViewName(); 
+                            view.init("view/templates/"+html,params);
+                            if(typeof(callback) == "function"){                                
+                               window.scrollTo(0,0);
+                               callback();
+                        }                                       
+                     });
+                });  
+            }          
+            
+            
+        </script>               
+        <!-- <link rel="stylesheet" type="text/css" media="all and (max-device-width: 480px)" href="css/smartphones.css" />  -->
+        
+<!-- Piwik -->  
+        <script type="text/javascript">  
+            var pkBaseURL = (("https:" == document.location.protocol) ? "https://de.itsbetter.com/piwik/" : "http://de.itsbetter.com/piwik/");  
+            document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));  
+        </script>
+        <script type="text/javascript">  
+            try {  
+                var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 6);  
+                piwikTracker.trackPageView();  
+                piwikTracker.enableLinkTracking();  
+            } catch( err ) {}  
+        </script>         
+<!-- End Piwik Tracking Code -->             
+    </head>
+    <body>
+        <div class="shadow">
+            <div id="header">
+                <a href=""><img id="headerLogo" src="images/logo2_small2.png" alt="logo" title="facebook checklist"/></a>
+                <!-- AddThis Button BEGIN -->
+                <div class="addthis_toolbox addthis_default_style" style="position: absolute; right: 0px; top: 10px; width: 150px;">
+                <a class="addthis_button_preferred_1"></a>
+                <a class="addthis_button_preferred_2"></a>
+                <a class="addthis_button_preferred_3"></a>
+                <a class="addthis_button_preferred_4"></a>
+                <a class="addthis_button_compact"></a>
+                <a class="addthis_counter addthis_bubble_style"></a>
+                </div>
+                <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-507d0dde28e15ac6"></script>
+                <!-- AddThis Button END -->
+            </div>
+            <div id="wrapper">            
+                <div id="mainContent">
+                </div>  
+            </div>
+            <div id="footer">
+                <a id="logo_tamag" href="http://www.itsbetter.eu"><img src="images/logo_tamag.png" /></a>            
+                
+                <p><a href="#impressum">Impressum</a></p>
+            </div>
+            <div id="piwikSwitch">
+                <iframe src="http://de.itsbetter.com/piwik/index.php?module=CoreAdminHome&action=optOut&lang=de"></iframe>
+            </div>
+        </div>
+        
+    <!--piwik-->    
+    <noscript><p><img src="http://de.itsbetter.com/piwik/piwik.php?idsite=6" style="border:0" alt="" /></p></noscript>             
+    </body>
+</html>

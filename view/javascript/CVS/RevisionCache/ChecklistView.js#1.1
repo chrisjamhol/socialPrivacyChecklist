@@ -1,0 +1,38 @@
+var ChecklistView = function(){
+   
+    //load template
+    this.init = function(html,params){        
+        $.get("index.php",{"from": "front","op": "createChecklistView","id": params.id},function(checklist){   //get Checklist
+            $('#typeSelection').remove();
+            $('#checklistDummy').load(html,function(){
+                        //display Checklist
+                    $('#checklistContainer').html(checklist);   
+                    
+                        // Buttonevents
+                    $('.checklistPoint .heading').click(function(){                 // hide/show text and screenshots if heading pressed
+                        if($(this).next().css("display") == "none"){
+                            $(this).parent().height("307");
+                            $(this).next().show("fast");
+                        }else{
+                            $(this).next().hide("fast",function(){                          
+                                $(this).parent().height("37");
+                            });
+                        }
+                    });
+
+                    $('.checkButton').click(function(){                             //show checkicon if checkbutton pressed
+                        $(this).parent().parent().siblings().find("img").show();
+                        $(this).parent().parent().hide("fast",function(){
+                            $(this).parent().height("37");                            
+                        });                
+                    });
+            });
+       });
+       
+           
+    }
+}
+
+function getView(){
+    return ChecklistView;
+}

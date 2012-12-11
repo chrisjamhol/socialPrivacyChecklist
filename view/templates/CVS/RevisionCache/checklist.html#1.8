@@ -1,0 +1,56 @@
+<div id="checklistOptions">
+    <div id="printChecklistButton" title="Checkliste drucken"><img id="printIcon" src="images/sprites/print.png" /></div>
+    <div id="mailChecklistButton" title="Checkliste speichern"><img id="mailIcon" src="images/sprites/mail.png" /></div>
+    <div id="followButton" title="Updates erhalten"><img id="followIcon" src="images/sprites/follow.png" /></div>
+</div>
+<div id="checklistContainer">
+   
+</div>
+<div id="checkedPoints">
+    
+</div>
+<div id="screenshotZoom">
+    
+</div>
+
+<a id="screenshotSwap" href="" style="display: none;">
+    <img src="" title=""/>
+</a>
+
+<div id="printDialog">
+    
+</div>
+    
+<div id="mailDialog" title="Checkliste speichern">
+    <p>Schicke dir selbst diese Checkliste als Mail, um sie später durchzugehen.</p>
+    <form>
+        <label id="emailFirstLabel"><span class="mailDialogErrorIndicator">*</span>E-Mail-Adresse</label><br />
+        <input  type="text" id="emailFirst" maxlength="80" size="30"><br /><br />
+        <label id="emailSecondLabel"><span class="mailDialogErrorIndicator">*</span>E-Mail-Adresse bestätigen</label><br />
+        <input  type="text" id="emailSecond" maxlength="80" size="30"><br />                
+    </form>
+    <div id="mailDialogError"><p></p></div>
+    <button id="sendMailButton">Senden</button>
+    <button id="cancelSendMailButton">Abbrechen</button>
+</div>
+
+<div id="followDialog" title="Auf dem Laufenden bleiben">
+    <p>Ich will bei wichtigen Änderungen, Updates etc. benachrichtigt werden.</p>
+    <form id="subscribe" action="https://login.mailingwork.de/optin/optin/execute" method="post" style="text-align: center;">
+        <input type="hidden" name="account_id" value="2653" />
+        <input type="hidden" name="account_code" value="6cC0C" />
+        <input type="hidden" name="optinsetup_id" value="8" />
+        <input type="hidden" name="optinsetup_code" value="Cy4wD" />
+        <table>
+            <tr>
+            <td>E-Mail*</td>
+            <td>
+                <input id="optin_field_12" type="text" name="fields[12]" value="" />
+            </td>
+            </tr>
+        </table>
+        <input type="hidden" name="ic" id="ic" value=" " />
+        <input type="button" name="btn_submit" value="Anmelden" onClick="return checkOptinForm();" />
+    </form>
+    <p class="datenschutbestimmungHinweis" style="float: right; font-size: .8em;"><a href="#datenschutzbestimmung" target="_blank">Datenschutzbestimmung</a></p>
+</div>

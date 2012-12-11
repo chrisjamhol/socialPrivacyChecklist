@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Facebook Security</title>
+        <link href='css/cssPc/welcome.css' rel='stylesheet' type='text/css'>
+        <script src="tools/prefixFree.js"></script>
+        <script src="tools/jQuery/jquery1.7.2.js"></script>
+        <script src="tools/jQuery/jqueryui1.8.21.js"></script> 
+        <script src="view/javascript/WelcomeView.js"></script> 
+        <script src="view/javascript/HashNav.js"></script>
+            <!-- loadNewView () -->
+        <script>
+             /**
+             * takes paths for: html,css,js,callback
+             * 
+             */            
+            var loadNewView = function(html,css,js,params,callback){ 
+                //---------- css ---------------
+               $.get("css/"+css, function(cssData) {
+                    $("head").append("<style type='text/css'>"+cssData+"</style>");
+                             //----------- script --------------
+                        $.getScript("view/javascript/"+js,function(){
+                                    //----------- view -----------------
+                            var ViewName = getView();
+                            var view = new ViewName(); 
+                            view.init("view/templates/"+html,params);                            
+                            if(typeof(callback) == "function"){                                
+                               callback();
+                        }                                       
+                     });
+                });  
+            }
+            
+            $('document').ready(function(){           
+                //hash Navigation
+                hashNav = new HashNav(); hashNav.on(); console.log(window.onpopstate);
+            });
+        </script>               
+        <!-- <link rel="stylesheet" type="text/css" media="all and (max-device-width: 480px)" href="css/smartphones.css" />  -->
+        
+<!-- Piwik -->  
+        <script type="text/javascript">  
+            var pkBaseURL = (("https:" == document.location.protocol) ? "https://de.itsbetter.com/piwik/" : "http://de.itsbetter.com/piwik/");  
+            document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));  
+        </script>
+        <script type="text/javascript">  
+            try {  
+                var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 6);  
+                piwikTracker.trackPageView();  
+                piwikTracker.enableLinkTracking();  
+            } catch( err ) {}  
+        </script>         
+<!-- End Piwik Tracking Code -->             
+    </head>
+    <body>
+        <div id="header">
+            <p><a href=""><img id="headerLogo" src="images/logo.png" alt="logo" title="facebook checklist"/></a></p>
+        </div>
+        <div id="wrapper">            
+            <div id="mainContent">
+            </div>  
+        </div>
+        <div id="footer">
+            <p>impressum shizzel: <a href="#impressum">Impressumg</a></p>
+        </div>
+        
+    <!--piwik-->    
+    <noscript><p><img src="http://de.itsbetter.com/piwik/piwik.php?idsite=6" style="border:0" alt="" /></p></noscript>             
+    </body>
+</html>

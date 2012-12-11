@@ -1,0 +1,33 @@
+#checklistEdit{
+    display: box;
+    box-orient: horizonal;
+    box-align: center;
+    box-pack: center;
+}
+
+#addChecklistButton{
+    display: box;    
+    box-flex: 1;
+}
+
+    #addChecklistButtonContainer{
+        display: box;
+        box-flex: 2;
+        box-orient: vertical;
+        box-align: end;
+    }
+
+#checklistEditContainer{
+    display: box;
+    box-flex: 12;
+    box-orient: vertical;
+    box-align: center;
+}
+
+
+
+    /*               Dialoge              */
+    
+#addNewChecklistDialog{
+    display: none;
+}

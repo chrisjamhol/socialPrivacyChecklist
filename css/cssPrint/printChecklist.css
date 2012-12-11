@@ -1,0 +1,48 @@
+#checklistContainer{
+    font-size: .7em;
+}
+
+#checklistContainer .checklistPoint{    
+    margin: 20px; 
+}
+
+#checklistContainer .checklistPointPreview{
+    position: relative;
+    background-color: white;
+    overflow: hidden;
+    padding-top: 25px
+}
+
+    #checklistContainer .heading{
+        padding: 15px;
+        border-top: 1px solid #A1A293;
+        color: #719ebb;
+        font-weight: bold;
+        font-size: 1.3em
+    }    
+    
+    #checklistContainer .textContainer{
+        
+    }
+    
+    #checklistContainer .screenshotContainer {
+        height: 175px;
+        overflow-x: auto;
+        overflow-y: hidden
+    }
+
+   .screenshotContainer a {
+        display: block;
+        float: left;
+        padding: 12px
+    }
+
+    .screenshotContainer a:first-child, .screenshotContainer a:last-child {
+        padding-left: 0
+    }
+    
+.checkBox{
+    display: block;
+    float: left;
+    margin-right: 15px;
+}

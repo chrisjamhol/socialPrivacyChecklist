@@ -1,0 +1,184 @@
+#checklistContainer{
+    height: 670px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 25px;
+    padding: 2px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+#checklistContainer .controls{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+    #checklistContainer .controls .checkButton{
+        margin-right: 15px;
+        background-color: #00BC00;
+        border: none;
+        padding: 10px 7px 10px 7px;
+        border-radius: 5px;
+        font-weight: bold;
+        color: white;
+        margin: 15px;
+    }
+
+#checklistContainer .checklistPoint{    
+    
+    
+}
+
+#checklistContainer .checklistPointPreview{
+    height: 0px; 
+    position: relative;
+    background-color: white;
+    border: 5px solid lightgray;
+}
+
+    #checklistContainer .heading{
+        padding: 10px;
+        widht: 100%;
+        background-color: #F9F9F9;
+    }
+    
+    #checklistContainer .heading:hover{
+        background-color: #bcbcbc;
+        cursor: pointer;
+        border-top: 1px solid gray;
+    }
+    
+        #checklistContainer .heading .checkicon{
+            display: none;
+            float: right;
+            padding: 0px;
+        }
+    
+    #checklistContainer .textContainer{
+        padding: 10px;
+        width: 445px;
+        max-width: 445px;
+        max-height: 240px;
+        overflow: auto;
+        overflow-x: hidden;
+    }
+    
+    #checklistContainer .screenshotContainer{
+        float: right;
+        display: table-cell;
+        vertical-align: central;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: 10px;
+        text-align: center;
+    }
+    
+        #checklistContainer img{
+            max-height: 90px;
+            max-width: 140px;
+        }
+        
+        #checklistContainer .screenshotsGeneral{
+            padding: 5px;
+            height: 90px;
+            width: 140px;
+        }
+        
+            #checklistContainer .screenshotsGeneral{
+                float: right;
+            }
+        
+        #checklistContainer .screenshot3{
+            clear: right;
+        } 
+        
+#checkedPointContainer{
+    width: 800px;
+    margin: 0 auto;
+}
+
+    .checkedPoint{
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+#checklistOptions{
+    height: 40px;
+    background-color: white;
+    padding-bottom: 5px;
+    margin-left: 25px;
+}
+        
+#printChecklistButton, #mailChecklistButton, #followButton{
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    float: left;   
+    overflow: hidden;    
+    margin-left: 8px;
+}
+
+#mailIcon,#printIcon,#followIcon{
+    width: 25px;
+    height: 25px;
+}
+
+        
+#screenshotZoom{
+    display: none;
+    position: absolute;
+    box-shadow: 0 0px 10px black; 
+    max-width: 510px;
+    max-height: 510px;
+    overflow: hidden;
+    background-color: white;
+    z-index: 99999;
+}
+   
+    .hoverZoom{
+        margin: 5px;
+        max-height: 500px;
+        max-width: 500px;
+    }
+    
+ /*     dialogs                */
+ 
+ #printDialog{
+     display: none;
+ }
+ 
+ #mailDialog{
+     display: none;
+ }
+    
+    #mailDialog form label{
+        font-weight: bold;
+    }
+    
+    #mailDialog form input{
+        margin-top: 4px;
+    }
+    
+    #sendMailButton span,#cancelSendMailButton span{
+        font-size: .8em;
+    }
+    
+    .mailDialogErrorIndicator{
+        display: none;
+        color: red;
+    }
+    
+    #mailDialogError{
+        color: red;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+    
+#followDialog{
+    display: none;
+    text-align: center;
+    width: 150px;
+    height: 100px;
+}

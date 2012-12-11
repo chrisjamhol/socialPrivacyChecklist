@@ -1,0 +1,51 @@
+<?php
+
+include 'model/DbConnector.php';
+$db = DbConnector::getInstance()->connect();
+
+
+echo "Stats:<br />";
+echo "totale Views: ".$db->query("SELECT `all` FROM `stats`")->fetch_object()->all."<br />";
+echo "Startseite: ".$db->query("SELECT `index` FROM `stats`")->fetch_object()->index."<br />";
+
+
+
+echo "<br /><b>Facebook Typen</b><br />";
+echo '<table border="1">';
+$fbTypes = $db->query("SELECT `name`,`hits` FROM `fbtype` WHERE 1");
+while($row = $fbTypes->fetch_object()){
+    echo '<tr><td>';
+    echo $row->name;
+    echo '</td><td>';
+    echo $row->hits;
+    echo '</td></tr>';
+}
+echo '</table>';
+
+
+/*echo "<br /><b>Checklisten</b><br />";
+echo '<table border="1">';
+$checklists = $db->query("SELECT `name`,`hits` FROM `checklist`");
+while($row = $checklists->fetch_object()){
+    echo "<tr><td>";
+    echo $row->name;
+    echo "</td><td>";
+    echo $row->hits;
+    echo "</td></tr>";
+}
+echo "</table>"; */
+
+
+
+echo "<br /><b>Checklistpunkte</b><br />";
+echo '<table border="1">';
+$checklistpoints = $db->query("SELECT `checklistPointId`,`hits` FROM `checklist_checklistpoints`");
+while($row = $checklistpoints->fetch_object()){
+    echo '<tr><td>';
+    echo $db->query("SELECT `heading` FROM `checklistpoints` WHERE `checklistPointId` = ".$row->checklistPointId)->fetch_object()->heading;
+    echo "</td><td>";
+    echo $row->hits;
+    echo "</td></tr>";
+}
+echo "</table>";
+?>

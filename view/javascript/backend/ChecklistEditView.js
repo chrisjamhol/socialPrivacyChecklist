@@ -1,7 +1,7 @@
 ChecklistEditView = function(){
     
     this.init = function(html){
-        $('#col3').html("");
+        $('#col3').html("");        
         $("#col2").load(html,function(){
                         //add checklist button
             $('#addChecklistButton').unbind("click").click(function(){
@@ -41,6 +41,8 @@ ChecklistEditView = function(){
     
     this.triggerChecklistPointView = function(checklistId,name){
         $('#col3').html("");
+        $('#addChecklistPointNew,#editChecklistPointNew,#addChecklistPointOptionsDialog').remove();
+        $(".ui-dialog-content").dialog("close");        
         loadNewView("checklistPointsEdit.html","cssPc/backend/checklistPointsEdit.css","ChecklistPointEditView.js",{"id":checklistId,"name": name,"getChecklists": getChecklists});  //load checklistView
     }
     

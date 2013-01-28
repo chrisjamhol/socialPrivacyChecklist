@@ -1,6 +1,4 @@
 /Article.php/1.2/Thu Nov  8 14:56:35 2012//
-/DbConnector.php/1.4/Thu Nov  8 14:54:08 2012//
-/DbObjects.php/1.3/Thu Nov  8 14:54:22 2012//
 /Evaluable.php/1.2/Thu Nov  8 14:54:35 2012//
 /Includer.php/1.2/Thu Nov  8 14:55:16 2012//
 /Screenshot.php/1.4/Fri Nov 09 10:32:35 2012//
@@ -9,6 +7,8 @@
 /croptest.php/1.2/Thu Nov  8 14:56:16 2012//
 /ListAsMail.php/1.30/Thu Nov 15 13:50:13 2012//
 /Checklist.php/1.6/Mon Dec  3 12:35:18 2012//
-/FbType.php/1.8/Mon Dec  3 12:50:00 2012//
-/ChecklistPoint.php/1.13/Wed Dec  5 14:34:37 2012//
+/DbConnector.php/1.5/Tue Dec 11 09:21:56 2012//
+/DbObjects.php/1.4/Tue Jan 22 13:51:34 2013//
+/ChecklistPoint.php/1.13/Tue Jan 22 08:52:57 2013//
+/FbType.php/1.8/Mon Jan 21 09:20:57 2013//
 D

@@ -259,7 +259,8 @@ function getExistingChecklistPoints($db){
 function importChecklistPoints($db){
     $ids = $_GET['ids'];
     $pos = $db->query("SELECT COUNT(`position`) AS highPos FROM `checklist_checklistpoints` WHERE `checklistId` = ".$_GET['checklistId'])->fetch_object()->highPos;
-    $pos++;
+    $pos;
+    var_dump($ids);
     foreach($ids as $id){
         //echo "INSERT INTO `checklist_checklistpoints`(`checklistId`, `checklistPointId`, `position`, `hits`) VALUES (".$_GET['checklistId'].",'".$id."',".$pos.",0)<br />";
         $db->query("INSERT INTO `checklist_checklistpoints`(`checklistId`, `checklistPointId`, `position`, `hits`) VALUES (".$_GET['checklistId'].",".$id.",".$pos.",0)");
@@ -270,7 +271,7 @@ function importChecklistPoints($db){
 function copyChecklistPoints($db){
     $ids = $_GET['ids'];
     $pos = $db->query("SELECT COUNT(`position`) AS highPos FROM `checklist_checklistpoints` WHERE `checklistId` = ".$_GET['checklistId'])->fetch_object()->highPos;
-    $pos++;
+    $pos;
     $nextId = $db->query("SELECT MAX(`checklistPointId`) AS max FROM `checklistpoints`")->fetch_object()->max + 1;    
     foreach($ids as $id){
         $copy = $db->query("SELECT * FROM checklistpoints WHERE `checklistPointId` = ".$id)->fetch_object();
@@ -283,29 +284,89 @@ function copyChecklistPoints($db){
 function addNewChecklistPoint($db){
         //update ChecklistPoint
     if(isset($_POST['values']['checklistPointId'])){
-        $checklistPoint = new ChecklistPoint($_POST['values']['checklistPointId']);
+        $id = str_replace("&iuml;", "", str_replace("&raquo;","",str_replace("&iquest;","",htmlentities($_POST['values']['checklistPointId']))));
+        $highPos = ($db->query("SELECT COUNT('checklistPointId') AS anzahl FROM checklist_checklistpoints WHERE checklistId = ".$_POST['values']['checklistId'])->fetch_object()->anzahl) - 1;        #new element inc.
+        
+            #if($highPos == 0){$highPos = 0;$emptyFlag = true;}
+            #newSort
+        if(isset($_POST['operator']['newPoint']) && $_POST['values']['pos'] != ""){
+            
+            $newPos = $_POST['values']['pos'] - 1;
+            if($newPos > $highPos){
+                echo "INSERT INTO `checklist_checklistpoints`(`checklistId`, `checklistPointId`, `position`) VALUES (".$_POST['values']['checklistId'].",".$id.",".($highPos+1).")";
+                $checklistSql = "INSERT INTO `checklist_checklistpoints`(`checklistId`, `checklistPointId`, `position`) VALUES (".$_POST['values']['checklistId'].",".$id.",".($highPos+1).")";
+            }else{
+                echo "SELECT * FROM checklist_checklistpoints WHERE position >= ".$newPos." AND checklistId = ".$_POST['values']['checklistId'];
+                $targets = $db->query("SELECT * FROM checklist_checklistpoints WHERE position >= ".$newPos." AND checklistId = ".$_POST['values']['checklistId']);
+                while($row = $targets->fetch_object()){
+                    echo "UPDATE checklist_checklistpoints SET position = position + 1 WHERE checklistId = ".$_POST['values']['checklistId']." AND checklistPointId = ".$row->checklistPointId;
+                    $db->query("UPDATE checklist_checklistpoints SET position = position + 1 WHERE checklistId = ".$_POST['values']['checklistId']." AND checklistPointId = ".$row->checklistPointId);
+
+                }                        
+            } 
+        }else if(!isset($_POST['operator']['newPoint'])){
+            $oldPos = $db->query("SELECT position FROM checklist_checklistpoints WHERE checklistId = ".$_POST['values']['checklistId']." AND checklistPointId = ".$id)->fetch_object()->position;
+            $newPos = $_POST['values']['pos'] - 1;
+            echo $newPos;
+
+            if($newPos > $oldPos){
+                $targets = $db->query("SELECT * FROM checklist_checklistpoints WHERE position <= $newPos AND position > $oldPos AND checklistId = ".$_POST['values']['checklistId']);
+                while($row = $targets->fetch_object()){
+                    $db->query("UPDATE checklist_checklistpoints SET position = position - 1 WHERE checklistId = ".$_POST['values']['checklistId']." AND checklistPointId = ".$row->checklistPointId);                
+                }
+            }else if($newPos < $oldPos){
+                $targets = $db->query("SELECT * FROM checklist_checklistpoints WHERE position >= $newPos AND position < $oldPos AND checklistId = ".$_POST['values']['checklistId']);
+                while ($row = $targets->fetch_object()) {
+                    $db->query("UPDATE checklist_checklistpoints SET position = position + 1 WHERE checklistId = ".$_POST['values']['checklistId']." AND checklistPointId = ".$row->checklistPointId);
+                }
+            }else if($newPos == $oldPos) {
+                $skipUpdatePos = true;
+            } 
+            
+
+        }        
+        
+        $id = str_replace("&iuml;", "", str_replace("&raquo;","",str_replace("&iquest;","",htmlentities($_POST['values']['checklistPointId']))));
+        $checklistPoint = new ChecklistPoint($id);
         $checklistPoint->setValue("heading",  strip_tags($_POST['values']['heading']));   
-        $checklistPoint->setValue("text",$_POST['values']['text']); 
-        $checklistPoint->save();        
+        $checklistPoint->setValue("text",$_POST['values']['text']);              
+        $checklistPoint->save();  
+        if(isset($_POST['values']['pos']) && $_POST['values']['pos'] != "" && !$skipUpdatePos){
+            echo "UPDATE checklist_checklistpoints SET position = ".$newPos." WHERE checklistId = ".$_POST['values']['checklistId']." AND checklistPointId = ".$id;
+            $db->query("UPDATE checklist_checklistpoints SET position = ".$newPos." WHERE checklistId = ".$_POST['values']['checklistId']." AND checklistPointId = ".$id);
+        }else if(!$skipUpdatePos){
+            echo "UPDATE checklist_checklistpoints SET position = ".($highPos)." WHERE checklistId = ".$_POST['values']['checklistId']." AND checklistPointId = ".$id;
+            $db->query("UPDATE checklist_checklistpoints SET position = ".($highPos)." WHERE checklistId = ".$_POST['values']['checklistId']." AND checklistPointId = ".$id);
+        }   
+
+                 
     }
         //create ChecklistPoint
     else{
         $checklistPoint = new ChecklistPoint();
         $checklistPoint->save();
-            //link to checklist
-        $checklistSql = "INSERT INTO `checklist_checklistpoints`(`checklistId`, `checklistPointId`, `position`, `hits`) VALUES (".$_POST['values']['checklistId'].",".$checklistPoint->getValue("id").",".$_POST['values']['pos'].",0)";
+            //link to checklist      
+        $checklistSql = "INSERT INTO `checklist_checklistpoints`(`checklistId`, `checklistPointId`) VALUES (".$_POST['values']['checklistId'].",".$checklistPoint->getValue("id").")";     
         $db->query($checklistSql);
+        #echo $checklistSql;
         echo $checklistPoint->getValue("id");
     }
 }
 
-function checkForChecklistPointCreate($db){
-    $heading = $db->query("SELECT `heading` FROM `checklistpoints` WHERE `checklistPointId` = ".$_GET['checklistPointId'])->fetch_object()->heading;
-    if($heading == ""){
-        $db->query("DELETE FROM `checklistpoint_screenshot` WHERE `checklistPointId` = ".$_GET['checklistPointId']);
-        $db->query("DELETE FROM `checklist_checklistpoints` WHERE `checklistPointId` = ".$_GET['checklistPointId']);
-        $db->query("DELETE FROM `checklistpoints` WHERE `checklistPointId` = ".$_GET['checklistPointId']);
+    function getCountChecklistPoints($db){
+        $count =  $db->query("SELECT COUNT('checklistPointId') AS anzahl FROM checklist_checklistpoints WHERE checklistId = ".$_GET['values']['checklistId'])->fetch_object()->anzahl;
+        echo htmlentities(($count - 1));
+    }
+
+function checkForChecklistPointCreate($db){    
+    $id = str_replace("&iuml;", "", str_replace("&raquo;","",str_replace("&iquest;","",htmlentities($_GET['checklistPointId']))));
+    $heading = $db->query("SELECT `heading` FROM `checklistpoints` WHERE `checklistPointId` = ".$id)->fetch_object()->heading;
+    if($heading == "" || $heading == NULL){
+        $db->query("DELETE FROM `checklistpoint_screenshot` WHERE `checklistPointId` = ".$id);
+        $db->query("DELETE FROM `checklist_checklistpoints` WHERE `checklistPointId` = ".$id);
+        $db->query("DELETE FROM `checklistpoints` WHERE `checklistPointId` = ".$id);
     }else{}
+    
 }
 
 function deleteChecklistPointFromList($db){

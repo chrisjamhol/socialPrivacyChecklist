@@ -57,7 +57,8 @@ abstract class DbObjects{
                 }
                 $saveSql .= ");";              
           }
-          $saveSql."<br />";
+          #$saveSql."<br />";
+          #$saveSql;
           $db->query($saveSql);
         
        
@@ -83,8 +84,8 @@ abstract class DbObjects{
      */   
     protected function load($id){
         $db = DbConnector::getInstance()->connect();
-        $loadSql = "SELECT * FROM `".$this->table."` WHERE `".$this->coloums[0]."` = ".$id;
-        $objectData = $db->query($loadSql);   
+        $loadSql = 'SELECT * FROM `'.$this->table.'` WHERE `'.$this->coloums[0].'`="'.$id.'"';
+        $objectData = $db->query($loadSql);
         return $objectData;
     }
     

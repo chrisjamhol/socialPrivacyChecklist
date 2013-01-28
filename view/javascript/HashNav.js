@@ -51,11 +51,9 @@
                 $('#headerLogo').show();
                 $('.shareBar').css({"top": "60px","right": "234px"});                
                 $.getJSON("index.php",{"from": "front", "op": "getChecklistIdByName", "name": hash},function(data){                    
-                    alert("2");
                     loadNewView("checklist.html","cssPc/checklist.css","ChecklistView.js",{"id": data.id, "name": hash, "iconPath": data.iconPath, "description": data.description},function(){
                     });  //load checklistView
                 });
-                alert("3");
             }else{
                 $('#headerLogo').hide();
                 $('.shareBar').css({"top": "10px","right": "0px"});                    

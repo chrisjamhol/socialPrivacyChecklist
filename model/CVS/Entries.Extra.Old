@@ -1,6 +1,4 @@
 /Article.php////*////
-/DbConnector.php////*////
-/DbObjects.php////*////
 /Evaluable.php////*////
 /Includer.php////*////
 /Screenshot.php////*////
@@ -9,5 +7,7 @@
 /croptest.php////*////
 /ListAsMail.php////////
 /Checklist.php////*////
-/ChecklistPoint.php////*////
 /FbType.php////*////
+/ChecklistPoint.php////*////
+/DbConnector.php////*////
+/DbObjects.php////*////

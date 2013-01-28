@@ -1,4 +1,4 @@
-<section id="checklistPointsEdit">
+﻿<section id="checklistPointsEdit">
     <div id="checklistOptionsContainer">        
         <button class="blueButton" id="deleteChecklistButton" title="Checklist löschen">löschen</button>
         <button class="blueButton" id="editChecklistButton" title="Checklist bearbeiten">bearbeiten</button>
@@ -14,7 +14,7 @@
 <!--     Dialoge          -->
 <div id="addChecklistPointDialog" title="Neuen Punkt anlegen">
     <div id="addChecklistPointNew">
-        <div id="addChecklistPointNewIdHolder" style="display: none;"></div> 
+        <div><span id="addChecklistPointNewIdHolder" style="display: none;"><p></p></span></div> 
         <table>
             <tr>
                 <td>Überschrift:&nbsp;</td>
@@ -23,6 +23,10 @@
             <tr>
                 <td>Text:&nbsp;</td>
                 <td><textarea id="addChecklistPointInputText"></textarea></td>
+            </tr>
+            <tr>
+                <td>Position:&nbsp;</td>
+                <td><input id="addChecklistPointInputPos" size="5" /><span id="addChecklistPointMaxCount"></span></td>
             </tr>
             <tr>
                 <td colspan="2"><button id="addChecklistPointScreenshotButton" class="blueButton" style="float: left;">Screenshots</button><button class="getScreenshotPathButton blueButton" style="float: left;">Screenshot Pfad</button></td>
@@ -36,41 +40,7 @@
 
 
 <div id="addChecklistPointScreenshotDialog">
-    <div class="boxLayoutContainer">
-         <!--<div id="addChecklistPointCurrentScreenshots">
-             <div class="screenshotWrapper">                 
-                <div id="screenshotDummy1" class="addChecklistPointScreenshotsDropBevore"></div>
-                <div class="screenshotsControls">
-                    <div class="screenshotsControlsBackwarts" title="Zurück"></div>
-                    <div class="screenshotsControlsDelete" title="Löschen"></div>
-                    <div class="screenshotsControlsForward" title="Vor"></div>
-                </div>
-             </div>
-             <div class="screenshotWrapper">
-                <div id="screenshotDummy2" class="addChecklistPointScreenshotsDropBevore"></div>
-                <div class="screenshotsControls">
-                    <div class="screenshotsControlsBackwarts" title="Zurück"></div>
-                    <div class="screenshotsControlsDelete" title="Löschen"></div>
-                    <div class="screenshotsControlsForward" title="Vor"></div>
-                </div>
-             </div>
-             <div class="screenshotWrapper">
-                <div id="screenshotDummy3" class="addChecklistPointScreenshotsDropBevore"></div>
-                <div class="screenshotsControls">
-                    <div class="screenshotsControlsBackwarts" title="Zurück"></div>
-                    <div class="screenshotsControlsDelete" title="Löschen"></div>
-                    <div class="screenshotsControlsForward" title="Vor"></div>
-                </div>
-             </div>
-             <div class="screenshotWrapper">
-                <div id="screenshotDummy4" class="addChecklistPointScreenshotsDropBevore"></div>             
-                <div class="screenshotsControls">
-                    <div class="screenshotsControlsBackwarts" title="Zurück"></div>
-                    <div class="screenshotsControlsDelete" title="Löschen"></div>
-                    <div class="screenshotsControlsForward" title="Vor"></div>
-                </div>
-             </div>
-        </div> -->
+    <div class="boxLayoutContainer">        
         <div id="addChecklistPointAvalibleScreenshots">
             
         </div>
@@ -117,6 +87,10 @@
             <tr>
                 <td>Text:&nbsp;</td>
                 <td><textarea id="editChecklistPointInputText"></textarea></td>
+            </tr>
+            <tr>
+                <td>Position:&nbsp;</td>
+                <td><input id="editChecklistPointInputPos" size="5" /><span id="editChecklistPointMaxCount"></span></td>
             </tr>
             <tr>
                 <td colspan="2"><button id="editChecklistPointScreenshotButton" class="blueButton" style="float: left;">Screenshots</button><button class="getScreenshotPathButton blueButton" style="float: left;">Screenshot Pfad</button></td>

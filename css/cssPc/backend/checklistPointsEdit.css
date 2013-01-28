@@ -17,7 +17,12 @@
         box-orient: vertical;
         box-align: end;
         font-size: 1em;
+        position: fixed;
     }
+        #addChecklistPointButtonContainer{
+            top: 100px;
+        }
+
     
     #checklistOptionsContainer button{
         font-size: 1em;

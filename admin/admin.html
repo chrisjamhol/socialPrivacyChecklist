@@ -32,10 +32,11 @@
                                 //----------- view -----------------
                             var ViewName = getView();
                             var view = new ViewName(); 
+                            console.log(html);
                             view.init("../view/templates/backend/"+html,params); 
                             if(typeof(callback) == "function"){                                
                                 callback();
-                        }                                       
+                            }                                       
                      });
                 });  
             }
@@ -47,6 +48,7 @@
             <button id="OpChecklist"><span class="buttonText">Checklist</span></button>
             <button id="OpArticle"><span class="buttonText">Artikel</span></button>
             <button id="OpStats"><span class="buttonText">Statistik</span></button>
+            <button id="OpFixer"><span class="buttonText">Reparieren</span></button>
         </section>
         <section id="col2" class="col">
            

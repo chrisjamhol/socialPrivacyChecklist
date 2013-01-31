@@ -260,7 +260,6 @@ function importChecklistPoints($db){
     $ids = $_GET['ids'];
     $pos = $db->query("SELECT COUNT(`position`) AS highPos FROM `checklist_checklistpoints` WHERE `checklistId` = ".$_GET['checklistId'])->fetch_object()->highPos;
     $pos;
-    var_dump($ids);
     foreach($ids as $id){
         //echo "INSERT INTO `checklist_checklistpoints`(`checklistId`, `checklistPointId`, `position`, `hits`) VALUES (".$_GET['checklistId'].",'".$id."',".$pos.",0)<br />";
         $db->query("INSERT INTO `checklist_checklistpoints`(`checklistId`, `checklistPointId`, `position`, `hits`) VALUES (".$_GET['checklistId'].",".$id.",".$pos.",0)");
@@ -369,13 +368,16 @@ function checkForChecklistPointCreate($db){
     
 }
 
-function deleteChecklistPointFromList($db){
-    $total = $db->query("SELECT COUNT(`position`) AS total FROM `checklist_checklistpoints` WHERE `checklistId` = ".$_GET['checklistId'])->fetch_object()->total;
-    $pos = $db->query("SELECT `position` FROM `checklist_checklistpoints` WHERE `checklistId` = ".$_GET['checklistId']." AND `checklistPointId` = ".$_GET['checkpointId'])->fetch_object()->position; 
-    $db->query('DELETE FROM `checklist_checklistpoints` WHERE `checklistId` = '.$_GET['checklistId'].' AND `checklistPointId` = '.$_GET['checkpointId']);
-    for($i = ($pos+1); $i <= $total; $i++){
-        $db->query('UPDATE `checklist_checklistpoints` SET `position` = '.($i-1).' WHERE `position` = '.$i);
-    }
+function deleteChecklistPointFromList($db){    
+        $checklistIds = $db->query("SELECT checklistId FROM checklist_checklistpoints WHERE checklistPointId = ".$_GET['checkpointId']);
+        #echo "SELECT checklistId FROM checklist_checklistpoints WHERE checklistPointId = ".$_GET['checkpointId']."<br />";
+        while($row = $checklistIds->fetch_object()){
+            $db->query("UPDATE checklist_checklistpoints SET position = position - 1 WHERE position > ".$db->query("SELECT position FROM checklist_checklistpoints WHERE checklistPointId = ".$_GET['checkpointId']." AND checklistId = ".$row->checklistId)->fetch_object()->position." AND checklistId = ".$row->checklistId);
+            #echo "SELECT position FROM checklist_checklistpoints WHERE checklistPointId = ".$_GET['checkpointId']." AND checklistId = ".$row->checklistId."<br />";
+            #echo "     UPDATE checklist_checklistpoints SET position = position - 1 WHERE position > ".$db->query("SELECT position FROM checklist_checklistpoints WHERE checklistPointId = ".$_GET['checkpointId']." AND checklistId = ".$row->checklistId)->fetch_object()->position." AND checklistId = ".$row->checklistId."<br />";
+            $db->query("DELETE FROM checklist_checklistpoints WHERE checklistPointId = ".$_GET['checkpointId']." AND checklistId = ".$row->checklistId);
+            #echo "     DELETE FROM checklist_checklistpoints WHERE checklistPointId = ".$_GET['checkpointId']." AND checklistId = ".$row->checklistId."<br />";
+        }                   
 }
 
 function screenshotToChecklist($db){
@@ -414,8 +416,22 @@ function changeChecklistPointOrder($db){
             $db->query("UPDATE `checklist_checklistpoints` SET `position` = ".$pos." WHERE `checklistId` = ".$_GET['checklistId']." AND `position` = ".($pos-1));
             $db->query("UPDATE `checklist_checklistpoints` SET `position` = ".($pos-1)." WHERE `checklistId` = ".$_GET['checklistId']." AND `checklistPointId` = ".$_GET['checklistPointId']); 
             break;
-    }
+    }    
 }
+
+function showAll($db){
+        $html = "<table>";
+        $checklistCount = $_GET['anzahl'];
+        for($i = 1; $i<=$checklistCount;$i++){
+            $html .= "<tr><td>ChecklistId = $i</td></tr>";
+            $all = $db->query("SELECT * FROM checklist_checklistpoints WHERE checklistId = $i ORDER BY position");
+            while($row = $all->fetch_object()){
+                $html .= "<tr><td>$row->checklistPointId</td><td>$row->position</td></tr>";
+            }
+        }           
+        $html .= "</table>";
+        echo $html;
+    }
 
 
 ?>

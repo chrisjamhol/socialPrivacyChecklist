@@ -8,9 +8,9 @@ ChecklistPointsEditView = function(){
         $('#col3').load(html,function(){
                 //add ChecklistPoint button event
             $('#addChecklistPointButton').unbind("click").click(function(){
-                $('#addChecklistPointOptionsDialog').dialog('open');                          
+                $('#addChecklistPointOptionsDialog').dialog('open');
             });
-            
+
                     $('#addChecklistPointOptionsDialog,#addChecklistPointOptionAddDialog').dialog({
                         autoOpen: false
                     });
@@ -25,15 +25,15 @@ ChecklistPointsEditView = function(){
                             $('#addChecklistPointNew').show();
                             $.get("../index.php",{"from":"back", "op":"getCountChecklistPoints", "values":{"checklistId":checklistId}},function(count){
                                 $('#addChecklistPointMaxCount').text(" (in Liste: "+count+")");
-                                
+
                                 $('#addChecklistPointDialog').dialog({
-                                    width: 900, 
-                                    height: 620, 
+                                    width: 900,
+                                    height: 620,
                                     position: "center",
                                     autoOpen: true,
                                     close: function(){
                                         var checklistPointId = $('#addChecklistPointNewIdHolder p').text();
-                                        $.get("../index.php",{"from": "back", "op": "checkForChecklistPointCreate", "checklistPointId": checklistPointId, "checklistId": checklistId},function(){                                
+                                        $.get("../index.php",{"from": "back", "op": "checkForChecklistPointCreate", "checklistPointId": checklistPointId, "checklistId": checklistId},function(){
                                             getChecklistPoints();
                                         });
                                         screenshots = []; //clear screenshotlist for next use
@@ -56,7 +56,7 @@ ChecklistPointsEditView = function(){
                     $('#addChecklistPointOptionAdd').unbind("click").click(function(){
                         $('#addChecklistPointOptionsDialog').dialog("close");
                         $('#addChecklistPointOptionAddDialog').dialog({height: 600, width: 600}).dialog("open");
-                        
+
                         $.get("../index.php",{"from": "back", "op": "getExistingChecklistPoints"},function(existing){
                             $('#existingChecklistPoints').html(existing);
                                 //remove used points
@@ -64,34 +64,34 @@ ChecklistPointsEditView = function(){
                                 var id = $(value).attr("id").replace("checklistPoint","");
                                 $('input[name=selectedChecklistPoints][value='+id+']').parent().parent().remove();
                             });
-                        });              
-                        
+                        });
+
                     });
-                    
+
                     $('#addChecklistPointsImportSubmit').unbind("click").click(function(){
                         var chosenPoints = [];
                         $.map($('#existingChecklistPoints input:checked'),function(value,key){
-                            chosenPoints.push($(value).attr("value"));                            
-                        }); 
+                            chosenPoints.push($(value).attr("value"));
+                        });
                         if(chosenPoints.length > 0){
-                            $.get("../index.php",{"from": "back","op": "importChecklistPoints","ids":chosenPoints,"checklistId": checklistId},function(){                                
+                            $.get("../index.php",{"from": "back","op": "importChecklistPoints","ids":chosenPoints,"checklistId": checklistId},function(){
                                 $('#addChecklistPointOptionAddDialog').dialog("close");
                                 getChecklistPoints();
                             });
                         }
                     });
-                    
+
                     $('#addChecklistPointsCopySubmit').unbind("click").click(function(){
                         var chosenPoints = [];
                         $.map($('#existingChecklistPoints input:checked'),function(value,key){
-                            chosenPoints.push($(value).attr("value"));                            
-                        }); 
-                        $.get("../index.php",{"from": "back","op": "copyChecklistPoints","ids":chosenPoints,"checklistId": checklistId},function(response){                                
+                            chosenPoints.push($(value).attr("value"));
+                        });
+                        $.get("../index.php",{"from": "back","op": "copyChecklistPoints","ids":chosenPoints,"checklistId": checklistId},function(response){
                             $('#addChecklistPointOptionAddDialog').dialog("close");
                             getChecklistPoints();
                         });
                     });
-            
+
             $('#editChecklistButton').unbind("click").click(function(){
                 $('#editChecklistDialog').dialog({
                     buttons: {
@@ -105,10 +105,10 @@ ChecklistPointsEditView = function(){
                         }
                     }
                 });
-                $('#editChecklistDialogName').val(checklistName);            
-                
+                $('#editChecklistDialogName').val(checklistName);
+
             });
-            
+
             $('#deleteChecklistButton').unbind("click").click(function(){
                 var confirmStatus =  confirm("Checklist löschen");
                 if(confirmStatus){
@@ -117,8 +117,8 @@ ChecklistPointsEditView = function(){
                     });
                 }else{}
             });
-            
-            
+
+
                 //dialog Button Events
                     //addChecklistPointSubmitButton
             $('#addChecklistPointInputSubmit').unbind("click").click(function(){
@@ -127,60 +127,60 @@ ChecklistPointsEditView = function(){
                 var checklistPointId = $('#addChecklistPointNewIdHolder p').text();
                 var pos = $('#addChecklistPointInputPos').val();
                 if(text != "" && heading != ""){
-                    $.post("../index.php",{"from": "back", "op": "addNewChecklistPoint","operator": "newPoint", 
+                    $.post("../index.php",{"from": "back", "op": "addNewChecklistPoint","operator": "newPoint",
                                                                                         "values": {
                                                                                             "checklistId": checklistId,
                                                                                             "checklistPointId": checklistPointId,
-                                                                                            "text": text, 
+                                                                                            "text": text,
                                                                                             "heading": heading,
-                                                                                            "pos": pos                                                                                
+                                                                                            "pos": pos
                                                                                          }
                     },function(){
                         $('#addChecklistPointDialog').dialog("close");
-                    });                     
+                    });
                 }else{
                     alert("Bitte eine Überschrift und Text eingeben");
-                }                
-            });            
+                }
+            });
                 //editChecklistPointSubmitButton
             $('#editChecklistPointInputSubmit').unbind("click").click(function(){
                 var text = $('#editChecklistPointInputText').getCode();
-                var heading = $('#editChecklistPointInputHeading').val();  
-                var pos = $('#editChecklistPointInputPos').val();              
+                var heading = $('#editChecklistPointInputHeading').val();
+                var pos = $('#editChecklistPointInputPos').val();
                 if(text != "" && heading != ""){
-                    $.post("../index.php",{"from": "back", "op": "addNewChecklistPoint", 
+                    $.post("../index.php",{"from": "back", "op": "addNewChecklistPoint",
                                                                             "values": {
                                                                                 "checklistId": checklistId,
                                                                                 "checklistPointId": $('#editChecklistPointDialogIdHolder').html(),
-                                                                                "text": text, 
+                                                                                "text": text,
                                                                                 "heading": heading,
                                                                                 "pos": pos
                                                                              }
                         },function(error){
                             getChecklistPoints();
                             $('#editChecklistPointDialog').dialog("close");
-                        });                        
+                        });
                         $('#editChecklistPointInputText').destroyEditor();
                 }else{
                     alert("Bitte eine Überschrift und Text eingeben");
                 }
-            });   
-            
-                    //add ChecklistScreenshotButton
-            $('#addChecklistPointScreenshotButton,#editChecklistPointScreenshotButton').unbind("click").click(function(){               
-                $('#addChecklistPointScreenshotDialog').dialog({width: 500});                
             });
-            
+
+                    //add ChecklistScreenshotButton
+            $('#addChecklistPointScreenshotButton,#editChecklistPointScreenshotButton').unbind("click").click(function(){
+                $('#addChecklistPointScreenshotDialog').dialog({width: 500});
+            });
+
                 //submit screenshotChanges
             $('#addChecklistPointScreenshotSubmit').unbind("click").click(function(){
-                $('#addChecklistPointScreenshotDialog').dialog("close");                               
+                $('#addChecklistPointScreenshotDialog').dialog("close");
             });
-            
+
            $('#addChecklistPointScreenshotClear').unbind("click").click(function(){
                screenshots = []; //clear screenshotlist for next use
                $('.addChecklistPointScreenshotsDropAfter').html("").removeClass("addChecklistPointScreenshotsDropAfter").addClass("addChecklistPointScreenshotsDropBevore");
             }) ;
-            
+
                             //new screenshotupload
                     $('#addChecklistPointNewScreenshotButton').unbind("click").click(function(){
                         var uploader = new qq.FileUploader({
@@ -192,7 +192,7 @@ ChecklistPointsEditView = function(){
                             onSubmit: function(){
                                 if($('#newScreenshotDescription').val() == ""){
                                    alert("Bitte zuerst eine Beschreibung des Bildes eingeben");
-                                   return false; 
+                                   return false;
                                 }
                             },
                             onComplete: function(id,fileName,response){
@@ -203,7 +203,7 @@ ChecklistPointsEditView = function(){
                         });
                         $('#newScreenshotUploadDialog').dialog();
                     });
-                    
+
                     $('#addChecklistPointNewScreenshotSubmit').unbind("click").click(function(){
                         if($('.qq-upload-file').html() != "" && $('#newScreenshotDescription').val() != ""){
                             $('#newScreenshotUploadDialog').dialog("close");
@@ -213,13 +213,13 @@ ChecklistPointsEditView = function(){
                                             "directory": "../../../images/screenshots/",
                                             "description": $('#newScreenshotDescription').val()},
                                 function(){
-                                    getScreenshots(); 
-                            }); 
+                                    getScreenshots();
+                            });
                         }else{
                             alert("Bitte Beschreibung angeben und Bild hochladen");
                         }
-                    });         
-            
+                    });
+
             $('.getScreenshotPathButton').unbind("click").click(function(){
                 $.getJSON("../index.php",{"from":"back","op":"getScreenshotsPath"},function(paths){
                     var html = "";
@@ -230,7 +230,7 @@ ChecklistPointsEditView = function(){
                                 '</tr>';
                     });
                     $('#screenshotPathsTable').html(html);
-                    
+
                     $.map($('#screenshotPathsTable tr'),function(value,key){
                         $(value).unbind('click').click(function(){
                             $('#path p').text($(this).find('img').attr("src").replace("thumbnails/","").replace("../",""));
@@ -238,11 +238,11 @@ ChecklistPointsEditView = function(){
                             $('#path').dialog();
                         });
                     });
-                    
+
                     $('#screenshotPathsDialog').dialog("open");
                 });
             });
-                
+
             $('#addNewChecklistPointDialogChoiceExisting').unbind("click").click(function(){
                 $(this).hide();
                 $('#addNewChecklistPointDialogChoiceNew').hide();
@@ -254,22 +254,22 @@ ChecklistPointsEditView = function(){
             });
             $('#screenshotPathsDialog').dialog({autoOpen:false,width: 400,height: 500});
         });
-        
+
         getChecklistPoints();
     }
-    
+
     this.getChecklistPoints = function(){
         $.get("../index.php",{"from": "back", "op": "getChecklistPoints", "values": {"checklistId": checklistId}},function(checklistPoints){
             $('#checklistPointEditContainer').html(checklistPoints);
-                //checklistPoint clickevents 
-            $('.checklistPointEdit').unbind("click").click(function(){
-                
+                //checklistPoint clickevents
+            $('.checklistPointEdit').click(function(){
+
                     //opening dialog
                 $('#editChecklistPointDialog').dialog({
-                    width: 900, 
-                    height: 620, 
+                    width: 900,
+                    height: 620,
                     position: "center",
-                    close: function(){                       
+                    close: function(){
                        screenshots = []; //clear screenshotlist for next use
                        $('#addChecklistPointAvalibleScreenshots').html("");
                        $('.addChecklistPointScreenshotsDropAfter').html("").removeClass("addChecklistPointScreenshotsDropAfter").addClass("addChecklistPointScreenshotsDropBevore");
@@ -284,28 +284,28 @@ ChecklistPointsEditView = function(){
                         initEditor("#editChecklistPointInputText");
                         $('#editChecklistPointInputText').setCode(checklistPoint.text);
                         $('#editChecklistPointDialogIdHolder').html(checklistPoint.checklistPointId);
-                                
+
                                 //getting screenshots
                         getScreenshotsCurrent(checklistPoint.checklistPointId);
-                });              
+                });
             });
-            
+
             $('.checklistPointOrderButtonUp').click(function(){
                 if($(this).parent().parent().index() > 0){
                     var checklistPointId = $(this).parent().parent().find('.checklistPointEdit').attr("id").replace("checklistPoint","");
                     $.get("../index.php",{"from":"back","op":"changeChecklistPointOrder","mode":"up","checklistPointId":checklistPointId, "checklistId": checklistId},function(){getChecklistPoints();});
-                }                
+                }
             });
-            
+
             $('.checklistPointOrderButtonDown').click(function(){
                 if($(this).parent().parent().index() <= $(this).parent().parent().parent().children("div").length){
                     var checklistPointId = $(this).parent().parent().find('.checklistPointEdit').attr("id").replace("checklistPoint","");
                     $.get("../index.php",{"from":"back","op":"changeChecklistPointOrder","mode":"down","checklistPointId":checklistPointId, "checklistId": checklistId},function(){getChecklistPoints();});
-                }               
+                }
             });
-        });        
+        });
     }
-    
+
     this.deleteChecklistPoint = function(){
         var checkpointId = $('#editChecklistPointDialogIdHolder').html();
         var confirm = '<div class="deleteChecklistpointConfirmDialog" style="display:none;font-size:15px;" title="Checkpunkt löschen?">Checkpunkt wirklich aus dieser Checkliste löschen?</div>';
@@ -319,30 +319,30 @@ ChecklistPointsEditView = function(){
                                         $.get("../index.php",{"from":"back","op":"deleteChecklistPointFromList","checklistId":checklistId,"checkpointId":checkpointId},function(){getChecklistPoints();});
 					$( this ).dialog( "close" );
                                         $('#editChecklistPointDialog').dialog("close");
-                                        $('.deleteChecklistpointConfirmDialog').remove();                                 
+                                        $('.deleteChecklistpointConfirmDialog').remove();
 				},
 				Cancel: function() {
 					$( this ).dialog( "close" );
-                                        $('.deleteChecklistpointConfirmDialog').remove();   
+                                        $('.deleteChecklistpointConfirmDialog').remove();
 				}
 			}
 		});
     }
-    
+
     var getChecklistPoints = this.getChecklistPoints;
     var deleteChecklistPoint = this.deleteChecklistPoint;
-    
+
     function initEditor(targetId){
         if($(targetId).parent().hasClass('redactor_box')){
             $(targetId).destroyEditor();
         }
         $(targetId).val("");
         $(targetId).redactor({
-            buttons: ['html', '|', 'formatting', '|', 
+            buttons: ['html', '|', 'formatting', '|',
                         'bold', 'italic', '|',
                         'alignleft', 'aligncenter', 'alignright', 'justify', '|',
                         'image','video', 'table', 'link', '|',
-                        'fontcolor', 'backcolor', '|', 
+                        'fontcolor', 'backcolor', '|',
                         'unorderedlist', 'orderedlist', 'outdent', 'indent', '|',
                         'fullscreen'],
             lang: 'de',
@@ -350,7 +350,7 @@ ChecklistPointsEditView = function(){
             autoresize: false
         });
     }
-    
+
     function getScreenshots(){
         //screenshots
         $.getJSON("../index.php",{"from": "back", "op": "getScreenshotsChecklistPointAll", "values": {"all": true}},function(response){
@@ -359,8 +359,8 @@ ChecklistPointsEditView = function(){
                 $('#addChecklistPointAvalibleScreenshots').html(response.all);
             }else{
 
-            }                   
-            $.map($('#addChecklistPointAvalibleScreenshots img'),function(value,key){                       
+            }
+            $.map($('#addChecklistPointAvalibleScreenshots img'),function(value,key){
                 $(value).unbind("click").click(function(){
                     var checklistPointId = "";
                         if($('#editChecklistPointDialog').dialog('isOpen') === true){
@@ -373,18 +373,18 @@ ChecklistPointsEditView = function(){
                     $.map(screenshots,function(v,k){if(v == targetId){doubleFlag = false;}});   //check if target is already chosen
                     if(doubleFlag == true && screenshots.length <= 3){
                         $.get("../index.php",{"from": "back", "op": "screenshotToChecklist", "screenshotId": targetId, "checklistPointId": checklistPointId, "position": (screenshots.length+1)});
-                        screenshots.push($(value).attr("id").replace(/screenshot/,"")); 
-                        $(value).clone().removeAttr("id").appendTo($('#screenshotDummy'+screenshots.length)); 
-                        $('#screenshotDummy'+screenshots.length).removeClass("addChecklistPointScreenshotsDropBevore").addClass("addChecklistPointScreenshotsDropAfter");                        
-                    }                            
-                });                        
+                        screenshots.push($(value).attr("id").replace(/screenshot/,""));
+                        $(value).clone().removeAttr("id").appendTo($('#screenshotDummy'+screenshots.length));
+                        $('#screenshotDummy'+screenshots.length).removeClass("addChecklistPointScreenshotsDropBevore").addClass("addChecklistPointScreenshotsDropAfter");
+                    }
+                });
             });
         });
     }
-    
+
     function getScreenshotsCurrent(checklistPointId){
         $.getJSON("../index.php",{"from": "back", "op": "getScreenshotsChecklistPointAll", "values": {"all": true,"current": true, "checklistPointId": checklistPointId}},function(response){
-            $('#addChecklistPointAvalibleScreenshots').html(response.all);           
+            $('#addChecklistPointAvalibleScreenshots').html(response.all);
         });
     }
 }
@@ -392,4 +392,3 @@ ChecklistPointsEditView = function(){
 function getView(){
     return ChecklistPointsEditView;
 }
-

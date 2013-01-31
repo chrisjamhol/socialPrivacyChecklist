@@ -37,8 +37,17 @@ class Fixer extends DbObjects{
 
 }
 
-$fixer = new Fixer();
-$fixer->fixChecklistPositions();
-$fixer->showChecklistPosition();
+switch ($_GET['op']) {
+	case 'fixChecklistPositions':
+		$fixer = new Fixer();
+		$fixer->fixChecklistPositions();
+		break;
+	
+	default:
+		$fixer = new Fixer();
+		$fixer->fixChecklistPositions();
+		$fixer->showChecklistPosition();
+		break;
+}
 
 ?>

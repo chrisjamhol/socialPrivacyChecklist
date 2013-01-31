@@ -8,7 +8,7 @@
     }
     var _firstLoad, hash = document.location.hash.replace("#",""); // the value of _id would be set by your server side code on page load if it had something to pre-load from the URL
     if(typeof(history.pushState) == "function"){var historySupport = true;}else{var historySupport = false;}
-    
+
     // in this function, i'm assuming you'd use the id passed in to do some ajax call and update the page
     var loadContent = function (hash, push)
     {
@@ -27,44 +27,44 @@
                 $('#headerLogo').show();
                 $('.shareBar').css({"top": "10px","right": "0px"});
                 loadNewView("impressum.html","cssPc/impressum.css","ImpressumView.js",function(){
-                    
-                });       
+
+                });
             }else if(hash == "disclaimer"){
                 $('#headerLogo').show();
                 $('.shareBar').css({"top": "10px","right": "0px"});
                 loadNewView("disclaimer.html","cssPc/disclaimer.css","DisclaimerView.js",function(){
-                   
-                });       
+
+                });
             }else if(hash == "datenschutzbestimmung"){
                 $('#headerLogo').show();
                 $('.shareBar').css({"top": "10px","right": "0px"});
                 loadNewView("datenschutzbestimmung.html","cssPc/datenschutzbestimmung.css","DatenschutzbestimmungView.js",function(){
-                    
-                });       
+
+                });
             }else if(hash == "thanks"){
                 $('#headerLogo').show();
                 $('.shareBar').css({"top": "444px","right": "590px"});
                 loadNewView("thanks.html","cssPc/thanks.css","ThanksView.js",function(){
-                   
-                });       
+
+                });
             }else if(hash != "" ){
                 $('#headerLogo').show();
-                $('.shareBar').css({"top": "60px","right": "234px"});                
-                $.getJSON("index.php",{"from": "front", "op": "getChecklistIdByName", "name": hash},function(data){                    
+                $('.shareBar').css({"top": "60px","right": "234px"});
+                $.getJSON("index.php",{"from": "front", "op": "getChecklistIdByName", "name": hash},function(data){
                     loadNewView("checklist.html","cssPc/checklist.css","ChecklistView.js",{"id": data.id, "name": hash, "iconPath": data.iconPath, "description": data.description},function(){
                     });  //load checklistView
                 });
             }else{
                 $('#headerLogo').hide();
-                $('.shareBar').css({"top": "10px","right": "0px"});                    
+                $('.shareBar').css({"top": "10px","right": "0px"});
                 loadNewView("welcome.html","cssPc/welcome.css","WelcomeView.js",{},function(){
-                   
+
                     $.get("index.php",{"from": "front","op": "increaseIndexStats"});
-                });                
-            }       
+                });
+            }
             //
             // update page with pulled data
- 
+
             // if browser supports history (check using Modernizr) *AND* we've passed true to push, then we pushState
             if (historySupport && push)
                 history.pushState({hash: hash}, "", "/" + id); // update the url to something like /5 or /6 (depending upon id)
@@ -74,22 +74,22 @@
             // load whatever the "initial" or empty page would be in your application
         }
     };
- 
+
     // in case you want to see the order in which these fire
-    //alert('code'); 
-    
+    //alert('code');
+
     window.onload = function ()
     {
         // in case you want to see the order in which these fire
         //alert('load');
- 
+
         // every browser properly fires the onload event, so in this, we set a boolean value when it is the first page load
         // we also use replaceState to replace the current state with whatever property we currently need to display.
         // Since this only fires on the FIRST load, we don't have to worry about messing any pushStates up, plus we ensure there's something in the
         // history if/when we return to this page later
- 
+
         _firstLoad = true;
- 
+
         // if we have a value for _id on first load, we use REPLACEstate to make sure this is on the history stack
         //if (hash != null && historySupport) history.replaceState({ hash: hash }, "", "/" + hash); // update the url to something like /5 or /6 (depending upon _id)
         // since we used replaceState, we don't want to push something on the history stack on top of it, so we load the content,
@@ -101,7 +101,7 @@
         // this is the only "hacky" part of what we have to do, but this makes the _firstload = false not fire until AFTER the onpopstate fires
         setTimeout(function () {_firstLoad = false;}, 0);
     };
- 
+
     this.on = function(){
         // check to see if their browser even supports history API using Modernizr
         if (historySupport)
@@ -112,7 +112,7 @@
                     _firstLoad = false;
                 else
                 {
-                    loadContent(document.location.hash.replace("#",""), false);                    
+                    loadContent(document.location.hash.replace("#",""), false);
                 }
             };
         }else{
@@ -121,7 +121,7 @@
              */
         }
     }
-    
+
     this.off = function(){
         window.onpopstate = function(event){
             event.preventDefault();

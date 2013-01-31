@@ -3,28 +3,32 @@ BackendView = function(){
     this.init = function(){
         
             //--------------- main control -------------
-        $('#OpFbType').click(function(){
+        $('#OpFbType').unbind('click').click(function(){
             loadNewView("fbTypeEdit.html","cssPc/backend/fbTypeEdit.css","FbTypeEditView.js",function(){
                 
             });
         });
         
-        $('#OpChecklist').click(function(){
+        $('#OpChecklist').unbind('click').click(function(){
              loadNewView("checklistEdit.html","cssPc/backend/checklistEdit.css","ChecklistEditView.js",function(){
                 
             });
         });
         
-         $('#OpArticle').click(function(){
+         $('#OpArticle').unbind('click').click(function(){
             loadNewView("articleEdit.html","cssPc/backend/articleEdit.css","ArticleEditView.js",function(){
                 getCats();      //get categorys and fill in select tab #acticleCatDropdown
                // showArticles();
             });           
         });
         
-         $('#OpStats').click(function(){
+         $('#OpStats').unbind('click').click(function(){
             loadNewView("stats.html","cssPc/backend/stats.css","StatsView.js");           
         });
+
+        $('#OpFixer').unbind('click').click(function(){
+            loadNewView("fixer.html","cssPc/backend/fixer.css","FixerView.js");
+        }); 
                 //-------------- articles -----------------
                 
                 
